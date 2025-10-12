@@ -1,0 +1,136 @@
+'use client';
+
+import { ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Label } from 'recharts';
+import { useMemo, useState } from 'react';
+import { RANK_VALUES, type RankValue } from '@/lib/constants';
+
+interface PlayerPoint {
+  data: any;
+  color: string;
+  name: string;
+}
+
+interface ScatterPlotProps {
+  data: any[];
+  xKey: string;
+  yKey: string;
+  xLabel: string;
+  yLabel: string;
+  xDomain?: [number, number];
+  yDomain?: [number, number];
+  playerPoints?: PlayerPoint[];
+  visibleRanks?: readonly RankValue[];
+}
+
+export { RANK_VALUES };
+export type { RankValue };
+
+// ツールチップ
+const CustomTooltip = ({ active, xKey, yKey, xLabel, yLabel, hoveredData }: any) => {
+  if (!active || !hoveredData) return null;
+
+  return (
+    <div className="bg-white p-3 border border-gray-300 rounded shadow-lg">
+      <p className="text-sm">
+        <span className="font-medium">{xLabel}:</span> {hoveredData[xKey]?.toFixed(2) || 'N/A'}
+      </p>
+      <p className="text-sm">
+        <span className="font-medium">{yLabel}:</span> {hoveredData[yKey]?.toFixed(2) || 'N/A'}
+      </p>
+    </div>
+  );
+};
+
+const renderPlayerCircle = (props: any) => {
+  const { cx, cy, fill } = props;
+  return (
+    <circle cx={cx} cy={cy} r={8} fill={fill} stroke="black" strokeWidth={1.5} />
+  );
+};
+
+function ScatterPlot({
+  data,
+  xKey,
+  yKey,
+  xLabel,
+  yLabel,
+  xDomain = [0, 1],
+  yDomain = [0, 1],
+  playerPoints = [],
+  visibleRanks = RANK_VALUES
+}: ScatterPlotProps) {
+  const [hoveredData, setHoveredData] = useState<any>(null);
+
+  const filteredData = useMemo(() => {
+    return data.filter(item => visibleRanks.includes(item['rank']));
+  }, [data, visibleRanks]);
+
+  const handleMouseEnter = (data: any) => {
+    setHoveredData(data);
+  };
+
+  const handleMouseLeave = () => {
+    setHoveredData(null);
+  };
+
+  return (
+    <div className="w-full h-full bg-white">
+      <ResponsiveContainer width="100%" height="100%">
+        <ScatterChart margin={{ top: 20, right: 20, bottom: 40, left: 20 }}>
+          <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" />
+          <XAxis
+            type="number"
+            dataKey={xKey}
+            domain={xDomain}
+            tick={{ fill: '#000', fontSize: 12 }}
+            tickFormatter={(value) => value.toFixed(2)}
+            allowDataOverflow={true}
+          >
+            <Label value={xLabel} offset={-20} position="insideBottom" style={{ fontSize: 14, fill: '#000' }} />
+          </XAxis>
+          <YAxis
+            type="number"
+            dataKey={yKey}
+            domain={yDomain}
+            tick={{ fill: '#000', fontSize: 12 }}
+            tickFormatter={(value) => value.toFixed(2)}
+            allowDataOverflow={true}
+          >
+            <Label value={yLabel} angle={-90} position="insideLeft" style={{ fontSize: 14, fill: '#000', textAnchor: 'middle' }} />
+          </YAxis>
+          <Tooltip
+            cursor={{ strokeDasharray: '3 3' }}
+            content={<CustomTooltip xKey={xKey} yKey={yKey} xLabel={xLabel} yLabel={yLabel} hoveredData={hoveredData} />}
+          />
+          {/* その他のデータ */}
+          <Scatter
+            name="All Players"
+            data={filteredData}
+            fill="#8884d8"
+            fillOpacity={0.3}
+            shape="circle"
+            isAnimationActive={false}
+            onMouseEnter={(data: any) => handleMouseEnter(data)}
+            onMouseLeave={handleMouseLeave}
+          />
+          {/* 取得したデータ */}
+          {playerPoints.map((player, idx) => (
+            <Scatter
+              key={`player-${idx}`}
+              name={player.name}
+              data={[player.data]}
+              fill={player.color}
+              fillOpacity={1}
+              shape={renderPlayerCircle}
+              isAnimationActive={false}
+              onMouseEnter={() => handleMouseEnter(player.data)}
+              onMouseLeave={handleMouseLeave}
+            />
+          ))}
+        </ScatterChart>
+      </ResponsiveContainer>
+    </div>
+  );
+}
+
+export default ScatterPlot;
