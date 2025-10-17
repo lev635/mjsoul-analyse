@@ -2,6 +2,8 @@ import PlayerRadarChart from '@/components/RadarChart';
 import PlayerInputTable from '@/components/PlayerInputTable';
 import { colors } from '@/lib/dataTransformers';
 import { Dispatch, SetStateAction } from 'react';
+import { Paper, Typography, Box, Stack } from '@mui/material';
+import Grid from '@mui/material/Grid';
 
 interface PlayerAnalysisSectionProps {
   playerNames: string[];
@@ -19,27 +21,37 @@ export default function PlayerAnalysisSection({
   players
 }: PlayerAnalysisSectionProps) {
   return (
-    <section className="flex-[1] bg-white p-4 rounded-lg shadow">
-      <h2 className="text-xl font-bold mb-4">プレイヤー検索</h2>
+    <Paper component="section" elevation={1} sx={{ flex: 1, p: 2 }}>
+      <Stack spacing={2}>
+        <Typography variant="h5" component="h2" sx={{ fontWeight: 'bold' }}>
+          プレイヤー検索
+        </Typography>
 
-      <PlayerInputTable
-        playerNames={playerNames}
-        setPlayerNames={setPlayerNames}
-        onFetchData={onFetchData}
-        scraping={scraping}
-      />
+        <PlayerInputTable
+          playerNames={playerNames}
+          setPlayerNames={setPlayerNames}
+          onFetchData={onFetchData}
+          scraping={scraping}
+        />
 
-      {/* レーダーチャート */}
-      <div className="grid grid-cols-2 gap-3">
-        {players.slice(0, 4).map((player: any, idx: number) => (
-          <div key={idx}>
-            <h3 className="text-sm font-bold mb-1" style={{ color: colors[idx] }}>
-              {playerNames[idx] || `プレイヤー ${idx + 1}`}
-            </h3>
-            <PlayerRadarChart playerData={player} color={colors[idx]} />
-          </div>
-        ))}
-      </div>
-    </section>
+        {/* レーダーチャート */}
+        <Grid container spacing={1.5}>
+          {players.slice(0, 4).map((player: any, idx: number) => (
+            <Grid size={6} key={idx}>
+              <Box>
+                <Typography
+                  variant="body2"
+                  component="h3"
+                  sx={{ fontWeight: 'bold', mb: 0.5, color: colors[idx] }}
+                >
+                  {playerNames[idx] || `プレイヤー ${idx + 1}`}
+                </Typography>
+                <PlayerRadarChart playerData={player} color={colors[idx]} />
+              </Box>
+            </Grid>
+          ))}
+        </Grid>
+      </Stack>
+    </Paper>
   );
 }

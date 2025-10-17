@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState, useMemo } from 'react';
+import { Box, Stack, Typography, Button } from '@mui/material';
 import ScatterPlotSection from '@/components/ScatterPlotSection';
 import PlayerSearchSection from '@/components/PlayerSearchSection';
 import HelpModal from '@/components/HelpModal';
@@ -66,29 +67,65 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 p-4">
-      <header className="mb-4 flex items-center gap-8">
-        <h1 className="text-3xl font-bold text-gray-800">じゃんたま分析くん</h1>
-        <button
+    <Stack
+      sx={{
+        bgcolor: 'grey.100',
+        p: 2,
+        overflow: 'hidden',
+        gap: 2,
+      }}
+    >
+      <Box
+        component="header"
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: 4,
+          mx: 'auto',
+          maxWidth: '1920px',
+          width: "100%",
+          flexShrink: 0,
+        }}
+      >
+        <Typography variant="h3" component="h1" sx={{ fontWeight: 'bold', color: 'grey.800' }}>
+          じゃんたま分析くん
+        </Typography>
+        <Button
           onClick={() => setShowHelp(true)}
-          className="text-lg font-bold underline"
+          variant="text"
+          sx={{
+            fontSize: '1.125rem',
+            fontWeight: 'bold',
+            textDecoration: 'underline',
+            textTransform: 'none',
+          }}
         >
           使い方
-        </button>
-      </header>
+        </Button>
+      </Box>
 
       <HelpModal isOpen={showHelp} onClose={() => setShowHelp(false)} />
 
-      <main className="flex gap-4 max-w-[1920px] mx-auto h-[calc(100vh-6rem)]">
-        <div className="flex-[2]">
+      <Box
+        component="main"
+        sx={{
+          display: 'flex',
+          gap: 2,
+          maxWidth: '1920px',
+          width: '100%',
+          mx: 'auto',
+          flex: 1,
+        }}
+      >
+        <Box sx={{ flex: 2, minHeight: 0 }}>
           <ScatterPlotSection
             scatterData={scatterData}
             playerScatterPoints={playerScatterPoints}
             axisOptions={axisOptions}
           />
-        </div>
+        </Box>
 
-        <div className="flex-[1]">
+        <Box sx={{ flex: 1, minHeight: 0 }}>
           <PlayerSearchSection
             playerNames={playerNames}
             setPlayerNames={setPlayerNames}
@@ -98,8 +135,8 @@ export default function Home() {
             colors={colors}
             stats={stats}
           />
-        </div>
-      </main>
-    </div>
+        </Box>
+      </Box>
+    </Stack>
   );
 }

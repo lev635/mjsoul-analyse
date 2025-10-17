@@ -1,5 +1,17 @@
 import { RANK_VALUES, type RankValue } from '@/components/ScatterPlot';
 import { Dispatch, SetStateAction } from 'react';
+import {
+  Box,
+  Stack,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  FormLabel,
+  FormControlLabel,
+  Checkbox,
+  SelectChangeEvent
+} from '@mui/material';
 
 interface ScatterPlotControlsProps {
   xAxis: string;
@@ -20,48 +32,65 @@ export default function ScatterPlotControls({
   visibleRanks,
   onToggleRank
 }: ScatterPlotControlsProps) {
+  const handleXAxisChange = (event: SelectChangeEvent) => {
+    setXAxis(event.target.value);
+  };
+
+  const handleYAxisChange = (event: SelectChangeEvent) => {
+    setYAxis(event.target.value);
+  };
+
   return (
-    <div className="w-48 flex flex-col gap-2">
-      <div>
-        <label className="block text-sm font-medium">X軸:</label>
-        <select
+    <Stack sx={{ width: 192, gap: 2 }}>
+      <FormControl fullWidth size="small">
+        <InputLabel id="x-axis-label">X軸</InputLabel>
+        <Select
+          labelId="x-axis-label"
           value={xAxis}
-          onChange={(e) => setXAxis(e.target.value)}
-          className="w-full border rounded px-2 py-1.5 text-sm"
+          label="X軸"
+          onChange={handleXAxisChange}
         >
           {axisOptions.map(key => (
-            <option key={key} value={key}>{key}</option>
+            <MenuItem key={key} value={key}>{key}</MenuItem>
           ))}
-        </select>
-      </div>
-      <div>
-        <label className="block text-sm font-medium">Y軸:</label>
-        <select
+        </Select>
+      </FormControl>
+
+      <FormControl fullWidth size="small">
+        <InputLabel id="y-axis-label">Y軸</InputLabel>
+        <Select
+          labelId="y-axis-label"
           value={yAxis}
-          onChange={(e) => setYAxis(e.target.value)}
-          className="w-full border rounded px-2 py-1.5 text-sm"
+          label="Y軸"
+          onChange={handleYAxisChange}
         >
           {axisOptions.map(key => (
-            <option key={key} value={key}>{key}</option>
+            <MenuItem key={key} value={key}>{key}</MenuItem>
           ))}
-        </select>
-      </div>
-      <div>
-        <label className="block text-sm font-medium">ランクフィルター</label>
-        <div className="flex flex-col gap-2">
+        </Select>
+      </FormControl>
+
+      <Box>
+        <FormLabel component="legend" sx={{ fontSize: '0.875rem', fontWeight: 'medium', mb: 1 }}>
+          ランクフィルター
+        </FormLabel>
+        <Stack sx={{ gap: 0.5 }}>
           {RANK_VALUES.map(rank => (
-            <label key={rank} className="flex items-center gap-2 text-sm">
-              <input
-                type="checkbox"
-                checked={visibleRanks.includes(rank)}
-                onChange={() => onToggleRank(rank)}
-                className="cursor-pointer"
-              />
-              <span>{rank}</span>
-            </label>
+            <FormControlLabel
+              key={rank}
+              control={
+                <Checkbox
+                  checked={visibleRanks.includes(rank)}
+                  onChange={() => onToggleRank(rank)}
+                  size="small"
+                />
+              }
+              label={rank}
+              sx={{ fontSize: '0.875rem' }}
+            />
           ))}
-        </div>
-      </div>
-    </div>
+        </Stack>
+      </Box>
+    </Stack>
   );
 }

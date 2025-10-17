@@ -2,6 +2,7 @@
 
 import { ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Label } from 'recharts';
 import { useMemo, useState } from 'react';
+import { Box, Paper, Typography } from '@mui/material';
 import { RANK_VALUES, type RankValue } from '@/lib/constants';
 
 interface PlayerPoint {
@@ -30,14 +31,14 @@ const CustomTooltip = ({ active, xKey, yKey, xLabel, yLabel, hoveredData }: any)
   if (!active || !hoveredData) return null;
 
   return (
-    <div className="bg-white p-3 border border-gray-300 rounded shadow-lg">
-      <p className="text-sm">
-        <span className="font-medium">{xLabel}:</span> {hoveredData[xKey]?.toFixed(2) || 'N/A'}
-      </p>
-      <p className="text-sm">
-        <span className="font-medium">{yLabel}:</span> {hoveredData[yKey]?.toFixed(2) || 'N/A'}
-      </p>
-    </div>
+    <Paper elevation={3} sx={{ p: 1.5, border: 1, borderColor: 'grey.300' }}>
+      <Typography variant="body2">
+        <Box component="span" sx={{ fontWeight: 'medium' }}>{xLabel}:</Box> {hoveredData[xKey]?.toFixed(2) || 'N/A'}
+      </Typography>
+      <Typography variant="body2">
+        <Box component="span" sx={{ fontWeight: 'medium' }}>{yLabel}:</Box> {hoveredData[yKey]?.toFixed(2) || 'N/A'}
+      </Typography>
+    </Paper>
   );
 };
 
@@ -74,7 +75,7 @@ function ScatterPlot({
   };
 
   return (
-    <div className="w-full h-full bg-white">
+    <Box sx={{ width: '100%', height: '100%', bgcolor: 'background.paper' }}>
       <ResponsiveContainer width="100%" height="100%">
         <ScatterChart margin={{ top: 20, right: 20, bottom: 40, left: 20 }}>
           <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" />
@@ -129,7 +130,7 @@ function ScatterPlot({
           ))}
         </ScatterChart>
       </ResponsiveContainer>
-    </div>
+    </Box>
   );
 }
 

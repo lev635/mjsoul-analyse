@@ -2,6 +2,7 @@
 
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer } from 'recharts';
 import { memo } from 'react';
+import { Box } from '@mui/material';
 
 interface PlayerStats {
   [key: string]: string;
@@ -45,7 +46,7 @@ const PlayerRadarChart = memo(function PlayerRadarChart({ playerData, color = '#
   ];
 
   return (
-    <div className="w-full h-45">
+    <Box sx={{ width: '100%', height: 180 }}>
       <ResponsiveContainer width="100%" height="100%">
         <RadarChart data={data} margin={{ top: 10, right: 10, bottom: 10, left: 10 }}>
           <PolarGrid stroke="#999" />
@@ -61,7 +62,7 @@ const PlayerRadarChart = memo(function PlayerRadarChart({ playerData, color = '#
           />
         </RadarChart>
       </ResponsiveContainer>
-    </div>
+    </Box>
   );
 });
 

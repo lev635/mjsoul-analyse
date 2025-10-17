@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react';
+import { Box, Typography, Paper } from '@mui/material';
 import ScatterPlot, { RANK_VALUES, type RankValue } from '@/components/ScatterPlot';
 import ScatterPlotControls from '@/components/ScatterPlotControls';
 
@@ -57,10 +58,23 @@ export default function ScatterPlotSection({
   };
 
   return (
-    <section className="flex-[1] bg-white p-4 rounded-lg shadow h-full flex flex-col gap-2">
-      <h2 className="text-xl font-bold">プレイヤー散布図</h2>
-      <div className="flex gap-2 flex-1 min-h-0">
-        <div className="flex-1 min-h-0">
+    <Paper
+      component="section"
+      elevation={1}
+      sx={{
+        flex: 1,
+        p: 2,
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 1,
+      }}
+    >
+      <Typography variant="h5" component="h2" sx={{ fontWeight: 'bold' }}>
+        プレイヤー散布図
+      </Typography>
+      <Box sx={{ display: 'flex', gap: 2, flex: 1, minHeight: 0 }}>
+        <Box sx={{ flex: 1, minHeight: 0 }}>
           <ScatterPlot
             data={scatterData}
             xKey={xAxis}
@@ -72,7 +86,7 @@ export default function ScatterPlotSection({
             playerPoints={playerScatterPoints}
             visibleRanks={visibleRanks}
           />
-        </div>
+        </Box>
 
         <ScatterPlotControls
           xAxis={xAxis}
@@ -83,7 +97,7 @@ export default function ScatterPlotSection({
           visibleRanks={visibleRanks}
           onToggleRank={toggleRank}
         />
-      </div>
-    </section>
+      </Box>
+    </Paper>
   );
 }

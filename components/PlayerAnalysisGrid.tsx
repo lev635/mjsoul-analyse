@@ -1,4 +1,6 @@
 import PlayerRadarChart from '@/components/RadarChart';
+import { Box, Typography, Paper, Stack, List, ListItem } from '@mui/material';
+import Grid from '@mui/material/Grid';
 
 interface PlayerAnalysisGridProps {
   players: any[];
@@ -79,39 +81,58 @@ export default function PlayerAnalysisGrid({
   if (players.length === 0) return null;
 
   return (
-    <div className="flex-1 flex flex-col gap-2">
-      <h3 className="text-xl font-bold">プレイヤー分析</h3>
-      <div className="grid grid-cols-2 gap-3">
+    <Stack sx={{ flex: 1, gap: 2 }}>
+      <Typography variant="h5" component="h3" sx={{ fontWeight: 'bold' }}>
+        プレイヤー分析
+      </Typography>
+      <Grid container spacing={1.5}>
         {players.slice(0, 4).map((player: any, idx: number) => {
           const advice = generateAdvice(player, stats);
 
           return (
-            <div key={idx} className="border border-black rounded p-1">
-              <div className="flex items-center gap-2">
-                <div
-                  className="w-3.5 h-3.5 rounded-full border border-black"
-                  style={{ backgroundColor: colors[idx] }}
-                />
-                <h4 className="text-sm font-bold text-black">
-                  {player['名前'] || `プレイヤー ${idx + 1}`}
-                </h4>
-              </div>
-              <PlayerRadarChart playerData={player} color={colors[idx]} />
-              <div className=" bg-gray-50 rounded text-xs">
-                <p className="font-bold">アドバイス:</p>
-                <ul className="space-y-1">
-                  {advice.map((item, i) => (
-                    <li key={i} className="flex gap-1">
-                      <span>•</span>
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
+            <Grid size={6} key={idx}>
+              <Paper
+                variant="outlined"
+                sx={{
+                  p: 0.5,
+                  borderColor: 'black',
+                  borderWidth: 1,
+                }}
+              >
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
+                  <Box
+                    sx={{
+                      width: 14,
+                      height: 14,
+                      borderRadius: '50%',
+                      border: 1,
+                      borderColor: 'black',
+                      bgcolor: colors[idx],
+                    }}
+                  />
+                  <Typography variant="body2" component="h4" sx={{ fontWeight: 'bold', color: 'black' }}>
+                    {player['名前'] || `プレイヤー ${idx + 1}`}
+                  </Typography>
+                </Box>
+                <PlayerRadarChart playerData={player} color={colors[idx]} />
+                <Box sx={{ bgcolor: 'grey.50', borderRadius: 1, p: 0.5 }}>
+                  <Typography variant="caption" sx={{ fontWeight: 'bold' }}>
+                    アドバイス:
+                  </Typography>
+                  <List dense disablePadding sx={{ pl: 1 }}>
+                    {advice.map((item, i) => (
+                      <ListItem key={i} disableGutters sx={{ display: 'flex', gap: 0.5, py: 0.25 }}>
+                        <Typography variant="caption" component="span">•</Typography>
+                        <Typography variant="caption" component="span">{item}</Typography>
+                      </ListItem>
+                    ))}
+                  </List>
+                </Box>
+              </Paper>
+            </Grid>
           );
         })}
-      </div>
-    </div>
+      </Grid>
+    </Stack>
   );
 }

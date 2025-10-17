@@ -1,4 +1,5 @@
 import { Dispatch, SetStateAction } from 'react';
+import { Box, Stack, Typography, TextField, Button } from '@mui/material';
 
 interface PlayerInputTableProps {
   playerNames: string[];
@@ -22,68 +23,157 @@ export default function PlayerInputTable({
   };
 
   return (
-    <div className="flex flex-col gap-2">
-      <h2 className="text-xl font-bold">プレイヤー検索</h2>
-      <div className="relative h-[280px]">
+    <Stack sx={{ gap: 2 }}>
+      <Typography variant="h5" component="h2" sx={{ fontWeight: 'bold' }}>
+        プレイヤー検索
+      </Typography>
+      <Box sx={{ position: 'relative', height: 280 }}>
         {/* 対面 */}
-        <div className="absolute top-0 left-1/2 transform -translate-x-1/2 flex items-center gap-1.5">
-          <div className="w-4 h-4 rounded-full" style={{ backgroundColor: colors[2] }}></div>
-          <input
-            type="text"
+        <Box
+          sx={{
+            position: 'absolute',
+            top: 0,
+            left: '50%',
+            transform: 'translateX(-50%)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 1.5,
+          }}
+        >
+          <Box sx={{ width: 16, height: 16, borderRadius: '50%', bgcolor: colors[2] }} />
+          <TextField
             placeholder="対面"
             value={playerNames[2]}
             onChange={(e) => handleNameChange(2, e.target.value)}
-            className="border-2 border-black rounded px-2 py-1 w-28 text-sm"
+            size="small"
+            sx={{
+              width: 112,
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': { borderWidth: 2, borderColor: 'black' },
+              },
+            }}
           />
-        </div>
+        </Box>
 
         {/* 上家 */}
-        <div className="absolute top-1/2 left-0 transform -translate-y-1/2 flex items-center gap-1.5">
-          <div className="w-4 h-4 rounded-full" style={{ backgroundColor: colors[3] }}></div>
-          <input
-            type="text"
+        <Box
+          sx={{
+            position: 'absolute',
+            top: '50%',
+            left: 0,
+            transform: 'translateY(-50%)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 1.5,
+          }}
+        >
+          <Box sx={{ width: 16, height: 16, borderRadius: '50%', bgcolor: colors[3] }} />
+          <TextField
             placeholder="上家"
             value={playerNames[3]}
             onChange={(e) => handleNameChange(3, e.target.value)}
-            className="border-2 border-black rounded px-2 py-1 w-28 text-sm"
+            size="small"
+            sx={{
+              width: 112,
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': { borderWidth: 2, borderColor: 'black' },
+              },
+            }}
           />
-        </div>
+        </Box>
 
         {/* ボタン */}
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-green-700 rounded-lg flex flex-col items-center justify-center p-3">
-          <button
+        <Box
+          sx={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: 128,
+            height: 128,
+            bgcolor: '#15803d',
+            borderRadius: 2,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <Button
             onClick={onFetchData}
             disabled={scraping || playerNames.every(n => !n.trim())}
-            className="bg-white text-green-700 w-16 h-16 rounded font-bold hover:bg-gray-100 disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed text-xs flex items-center justify-center"
+            variant="contained"
+            sx={{
+              bgcolor: 'white',
+              color: '#15803d',
+              width: 64,
+              height: 64,
+              fontWeight: 'bold',
+              fontSize: '0.75rem',
+              '&:hover': { bgcolor: 'grey.100' },
+              '&.Mui-disabled': {
+                bgcolor: 'grey.300',
+                color: 'grey.500',
+              },
+            }}
           >
             {scraping ? '取得中' : '取得'}
-          </button>
-        </div>
+          </Button>
+        </Box>
 
         {/* 下家 */}
-        <div className="absolute top-1/2 right-0 transform -translate-y-1/2 flex items-center gap-1.5">
-          <div className="w-4 h-4 rounded-full" style={{ backgroundColor: colors[1] }}></div>
-          <input
-            type="text"
+        <Box
+          sx={{
+            position: 'absolute',
+            top: '50%',
+            right: 0,
+            transform: 'translateY(-50%)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 1.5,
+          }}
+        >
+          <Box sx={{ width: 16, height: 16, borderRadius: '50%', bgcolor: colors[1] }} />
+          <TextField
             placeholder="下家"
             value={playerNames[1]}
             onChange={(e) => handleNameChange(1, e.target.value)}
-            className="border-2 border-black rounded px-2 py-1 w-28 text-sm"
+            size="small"
+            sx={{
+              width: 112,
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': { borderWidth: 2, borderColor: 'black' },
+              },
+            }}
           />
-        </div>
+        </Box>
 
         {/* 自家 */}
-        <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 flex items-center gap-1.5">
-          <div className="w-4 h-4 rounded-full" style={{ backgroundColor: colors[0] }}></div>
-          <input
-            type="text"
+        <Box
+          sx={{
+            position: 'absolute',
+            bottom: 0,
+            left: '50%',
+            transform: 'translateX(-50%)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 1.5,
+          }}
+        >
+          <Box sx={{ width: 16, height: 16, borderRadius: '50%', bgcolor: colors[0] }} />
+          <TextField
             placeholder="自家"
             value={playerNames[0]}
             onChange={(e) => handleNameChange(0, e.target.value)}
-            className="border-2 border-black rounded px-2 py-1 w-28 text-sm"
+            size="small"
+            sx={{
+              width: 112,
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': { borderWidth: 2, borderColor: 'black' },
+              },
+            }}
           />
-        </div>
-      </div>
-    </div>
+        </Box>
+      </Box>
+    </Stack>
   );
 }

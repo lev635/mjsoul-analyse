@@ -1,6 +1,8 @@
 'use client';
 
 import { memo } from 'react';
+import { Box, Paper, Typography, Stack } from '@mui/material';
+import Grid from '@mui/material/Grid';
 
 interface PlayerAnalysisProps {
   playerData: { [key: string]: string };
@@ -44,43 +46,61 @@ const PlayerAnalysis = memo(function PlayerAnalysis({ playerData, averageData, s
   const lackData = parseInt(playerData["記録対戦数"]) < 50;
 
   return (
-    <div className="bg-white p-4 rounded-lg shadow">
-      <div className="flex items-center mb-4">
-        <div
-          className="w-4 h-4 rounded-full border border-black mr-2"
-          style={{ backgroundColor: color }}
+    <Paper elevation={1} sx={{ p: 2 }}>
+      <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+        <Box
+          sx={{
+            width: 16,
+            height: 16,
+            borderRadius: '50%',
+            border: 1,
+            borderColor: 'black',
+            bgcolor: color,
+            mr: 1,
+          }}
         />
-        <span className={lackData ? "text-red-600" : "text-black"}>
+        <Typography
+          variant="body1"
+          sx={{ color: lackData ? 'error.main' : 'text.primary' }}
+        >
           {playerName} {lackData && "(データ不足)"}
-        </span>
-      </div>
+        </Typography>
+      </Box>
 
-      <div className="grid grid-cols-2 gap-8">
-        <div>
-          <h3 className="text-lg font-bold mb-2">【長所】</h3>
-          <div className="space-y-1">
+      <Grid container spacing={4}>
+        <Grid size={6}>
+          <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1 }}>
+            【長所】
+          </Typography>
+          <Stack spacing={0.5}>
             {Object.entries(strongPoints).map(([key, value]) => (
-              <div key={key} className="flex justify-between">
-                <span>{key}</span>
-                <span className="font-mono">{value}</span>
-              </div>
+              <Box key={key} sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                <Typography variant="body2">{key}</Typography>
+                <Typography variant="body2" sx={{ fontFamily: 'monospace' }}>
+                  {value}
+                </Typography>
+              </Box>
             ))}
-          </div>
-        </div>
+          </Stack>
+        </Grid>
 
-        <div>
-          <h3 className="text-lg font-bold mb-2">【短所】</h3>
-          <div className="space-y-1">
+        <Grid size={6}>
+          <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1 }}>
+            【短所】
+          </Typography>
+          <Stack spacing={0.5}>
             {Object.entries(weakPoints).map(([key, value]) => (
-              <div key={key} className="flex justify-between">
-                <span>{key}</span>
-                <span className="font-mono">{value}</span>
-              </div>
+              <Box key={key} sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                <Typography variant="body2">{key}</Typography>
+                <Typography variant="body2" sx={{ fontFamily: 'monospace' }}>
+                  {value}
+                </Typography>
+              </Box>
             ))}
-          </div>
-        </div>
-      </div>
-    </div>
+          </Stack>
+        </Grid>
+      </Grid>
+    </Paper>
   );
 });
 
