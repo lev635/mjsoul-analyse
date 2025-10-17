@@ -87,7 +87,7 @@ export default function ScatterPlotSection({
       }}
     >
       <Typography variant="h5" component="h2" sx={{ fontWeight: 'bold' }}>
-        プレイヤー散布図
+        データ
       </Typography>
       <Box sx={{ display: 'flex', gap: 2, flex: 1, minHeight: 0 }}>
         <Box sx={{ flex: 1, minHeight: 0 }}>
