@@ -1,5 +1,5 @@
 import { RANK_VALUES, type RankValue } from '@/components/ScatterPlot';
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, memo } from 'react';
 import {
   Box,
   Stack,
@@ -23,7 +23,7 @@ interface ScatterPlotControlsProps {
   onToggleRank: (rank: RankValue) => void;
 }
 
-export default function ScatterPlotControls({
+const ScatterPlotControls = memo(function ScatterPlotControls({
   xAxis,
   setXAxis,
   yAxis,
@@ -93,4 +93,6 @@ export default function ScatterPlotControls({
       </Box>
     </Stack>
   );
-}
+});
+
+export default ScatterPlotControls;

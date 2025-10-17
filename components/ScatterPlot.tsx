@@ -1,42 +1,54 @@
 'use client';
 
 import { ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Label } from 'recharts';
-import { useMemo, useState } from 'react';
+import { useMemo, useState, memo } from 'react';
 import { Box, Paper, Typography } from '@mui/material';
 import { RANK_VALUES, type RankValue } from '@/lib/constants';
-
-interface PlayerPoint {
-  data: any;
-  color: string;
-  name: string;
-}
+import { ScatterDataPoint, PlayerScatterPoint } from '@/lib/types';
 
 interface ScatterPlotProps {
-  data: any[];
+  data: ScatterDataPoint[];
   xKey: string;
   yKey: string;
   xLabel: string;
   yLabel: string;
   xDomain?: [number, number];
   yDomain?: [number, number];
-  playerPoints?: PlayerPoint[];
-  visibleRanks?: readonly RankValue[];
+  playerPoints?: PlayerScatterPoint[];
 }
 
 export { RANK_VALUES };
 export type { RankValue };
 
 // ツールチップ
-const CustomTooltip = ({ active, xKey, yKey, xLabel, yLabel, hoveredData }: any) => {
+interface CustomTooltipProps {
+  active?: boolean;
+  xKey: string;
+  yKey: string;
+  xLabel: string;
+  yLabel: string;
+  hoveredData: ScatterDataPoint | null;
+}
+
+const CustomTooltip = ({ active, xKey, yKey, xLabel, yLabel, hoveredData }: CustomTooltipProps) => {
   if (!active || !hoveredData) return null;
+
+  const xValue = hoveredData[xKey];
+  const yValue = hoveredData[yKey];
+
+  const formatValue = (value: string | number | undefined): string => {
+    if (value === undefined) return 'N/A';
+    const num = typeof value === 'number' ? value : parseFloat(value);
+    return isNaN(num) ? 'N/A' : num.toFixed(2);
+  };
 
   return (
     <Paper elevation={3} sx={{ p: 1.5, border: 1, borderColor: 'grey.300' }}>
       <Typography variant="body2">
-        <Box component="span" sx={{ fontWeight: 'medium' }}>{xLabel}:</Box> {hoveredData[xKey]?.toFixed(2) || 'N/A'}
+        <Box component="span" sx={{ fontWeight: 'medium' }}>{xLabel}:</Box> {formatValue(xValue)}
       </Typography>
       <Typography variant="body2">
-        <Box component="span" sx={{ fontWeight: 'medium' }}>{yLabel}:</Box> {hoveredData[yKey]?.toFixed(2) || 'N/A'}
+        <Box component="span" sx={{ fontWeight: 'medium' }}>{yLabel}:</Box> {formatValue(yValue)}
       </Typography>
     </Paper>
   );
@@ -49,7 +61,8 @@ const renderPlayerCircle = (props: any) => {
   );
 };
 
-function ScatterPlot({
+// メモ化
+const ScatterPlot = memo(function ScatterPlot({
   data,
   xKey,
   yKey,
@@ -57,16 +70,11 @@ function ScatterPlot({
   yLabel,
   xDomain = [0, 1],
   yDomain = [0, 1],
-  playerPoints = [],
-  visibleRanks = RANK_VALUES
+  playerPoints = []
 }: ScatterPlotProps) {
-  const [hoveredData, setHoveredData] = useState<any>(null);
+  const [hoveredData, setHoveredData] = useState<ScatterDataPoint | null>(null);
 
-  const filteredData = useMemo(() => {
-    return data.filter(item => visibleRanks.includes(item['rank']));
-  }, [data, visibleRanks]);
-
-  const handleMouseEnter = (data: any) => {
+  const handleMouseEnter = (data: ScatterDataPoint) => {
     setHoveredData(data);
   };
 
@@ -75,7 +83,7 @@ function ScatterPlot({
   };
 
   return (
-    <Box sx={{ width: '100%', height: '100%', bgcolor: 'background.paper' }}>
+    <Box sx={{ width: '100%', height: '100%' }}>
       <ResponsiveContainer width="100%" height="100%">
         <ScatterChart margin={{ top: 20, right: 20, bottom: 40, left: 20 }}>
           <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" />
@@ -106,7 +114,7 @@ function ScatterPlot({
           {/* その他のデータ */}
           <Scatter
             name="All Players"
-            data={filteredData}
+            data={data}
             fill="#8884d8"
             fillOpacity={0.3}
             shape="circle"
@@ -132,6 +140,6 @@ function ScatterPlot({
       </ResponsiveContainer>
     </Box>
   );
-}
+});
 
 export default ScatterPlot;

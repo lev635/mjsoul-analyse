@@ -1,16 +1,17 @@
 import PlayerInputTable from '@/components/PlayerInputTable';
 import PlayerAnalysisGrid from '@/components/PlayerAnalysisGrid';
 import { Dispatch, SetStateAction } from 'react';
-import { Paper, Stack } from '@mui/material';
+import { Box, Stack } from '@mui/material';
+import { PlayerStats, Stats } from '@/lib/types';
 
 interface PlayerSearchSectionProps {
   playerNames: string[];
   setPlayerNames: Dispatch<SetStateAction<string[]>>;
   onFetchData: () => void;
   scraping: boolean;
-  players: any[];
+  players: PlayerStats[];
   colors: string[];
-  stats: any;
+  stats: Stats;
 }
 
 export default function PlayerSearchSection({
@@ -23,13 +24,11 @@ export default function PlayerSearchSection({
   stats
 }: PlayerSearchSectionProps) {
   return (
-    <Paper
+    <Box
       component="section"
-      elevation={1}
       sx={{
         p: 2,
-        height: '100%',
-        overflow: 'auto',
+        height: 1100,
       }}
     >
       <Stack sx={{ gap: 2 }}>
@@ -39,13 +38,12 @@ export default function PlayerSearchSection({
           onFetchData={onFetchData}
           scraping={scraping}
         />
-
         <PlayerAnalysisGrid
           players={players}
           colors={colors}
           stats={stats}
         />
       </Stack>
-    </Paper>
+    </Box>
   );
 }

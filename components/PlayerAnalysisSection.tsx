@@ -4,13 +4,14 @@ import { colors } from '@/lib/dataTransformers';
 import { Dispatch, SetStateAction } from 'react';
 import { Paper, Typography, Box, Stack } from '@mui/material';
 import Grid from '@mui/material/Grid';
+import { PlayerStats } from '@/lib/types';
 
 interface PlayerAnalysisSectionProps {
   playerNames: string[];
   setPlayerNames: Dispatch<SetStateAction<string[]>>;
   onFetchData: () => void;
   scraping: boolean;
-  players: any[];
+  players: PlayerStats[];
 }
 
 export default function PlayerAnalysisSection({
@@ -36,7 +37,7 @@ export default function PlayerAnalysisSection({
 
         {/* レーダーチャート */}
         <Grid container spacing={1.5}>
-          {players.slice(0, 4).map((player: any, idx: number) => (
+          {players.slice(0, 4).map((player: PlayerStats, idx: number) => (
             <Grid size={6} key={idx}>
               <Box>
                 <Typography

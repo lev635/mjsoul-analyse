@@ -16,6 +16,7 @@ export default function PlayerInputTable({
   onFetchData,
   scraping
 }: PlayerInputTableProps) {
+  // useRefを使ってもパフォーマンスに大差ないので使わない
   const handleNameChange = (index: number, value: string) => {
     const newNames = [...playerNames];
     newNames[index] = value;
@@ -116,7 +117,7 @@ export default function PlayerInputTable({
               },
             }}
           >
-            {scraping ? '取得中' : '取得'}
+            取得
           </Button>
         </Box>
 

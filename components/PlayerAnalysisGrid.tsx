@@ -1,19 +1,78 @@
 import PlayerRadarChart from '@/components/RadarChart';
 import { Box, Typography, Paper, Stack, List, ListItem } from '@mui/material';
 import Grid from '@mui/material/Grid';
+import { PlayerStats, Stats } from '@/lib/types';
+import { useMemo, memo } from 'react';
 
 interface PlayerAnalysisGridProps {
-  players: any[];
+  players: PlayerStats[];
   colors: string[];
-  stats: any;
+  stats: Stats;
 }
 
-function generateAdvice(playerData: any, stats: any): string[] {
+interface PlayerCardProps {
+  player: PlayerStats;
+  color: string;
+  stats: Stats;
+}
+
+// プレイヤーカードをメモ化
+const PlayerCard = memo(function PlayerCard({ player, color, stats }: PlayerCardProps) {
+  const advice = useMemo(() => generateAdvice(player, stats), [player, stats]);
+
+  return (
+    <Paper
+      variant="outlined"
+      sx={{
+        p: 0.5,
+        borderColor: 'black',
+        borderWidth: 1,
+      }}
+    >
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+        <Box
+          sx={{
+            width: 14,
+            height: 14,
+            borderRadius: '50%',
+            border: 1,
+            borderColor: 'black',
+            bgcolor: color,
+          }}
+        />
+        <Typography variant="body2" component="h4" sx={{ fontWeight: 'bold', color: 'black' }}>
+          {player['名前'] || 'プレイヤー'}
+        </Typography>
+      </Box>
+      <PlayerRadarChart playerData={player} color={color} />
+      <Box sx={{ bgcolor: 'grey.50', borderRadius: 1, p: 0.5 }}>
+        <Typography variant="caption" sx={{ fontWeight: 'bold' }}>
+          アドバイス:
+        </Typography>
+        <List dense disablePadding sx={{ pl: 1 }}>
+          {advice.map((item, i) => (
+            <ListItem key={i} disableGutters sx={{ display: 'flex', gap: 0.5, py: 0.25 }}>
+              <Typography variant="caption" component="span">•</Typography>
+              <Typography variant="caption" component="span">{item}</Typography>
+            </ListItem>
+          ))}
+        </List>
+      </Box>
+    </Paper>
+  );
+});
+
+function generateAdvice(playerData: PlayerStats | undefined, stats: Stats): string[] {
   const advice: string[] = [];
+
+  // playerData が undefined の場合
+  if (!playerData) {
+    return ['データがありません'];
+  }
 
   // 平均和了
   if (stats['平均和了']) {
-    const val = parseFloat(playerData['平均和了']);
+    const val = parseFloat(playerData['平均和了'] || '0');
     const { mean, stdDev } = stats['平均和了'];
     if (val > mean + stdDev) {
       advice.push('高打点プレイヤー。高い手を狙う傾向があります。');
@@ -24,7 +83,7 @@ function generateAdvice(playerData: any, stats: any): string[] {
 
   // 放銃率
   if (stats['放銃率']) {
-    const val = parseFloat(playerData['放銃率']);
+    const val = parseFloat(playerData['放銃率'] || '0');
     const { mean, stdDev } = stats['放銃率'];
     if (val > mean + stdDev) {
       advice.push('放銃率が高め。降りのタイミングに注意が必要です。');
@@ -35,7 +94,7 @@ function generateAdvice(playerData: any, stats: any): string[] {
 
   // 立直率
   if (stats['立直率']) {
-    const val = parseFloat(playerData['立直率']);
+    const val = parseFloat(playerData['立直率'] || '0');
     const { mean, stdDev } = stats['立直率'];
     if (val > mean + stdDev) {
       advice.push('積極的に立直を打つスタイル。');
@@ -46,7 +105,7 @@ function generateAdvice(playerData: any, stats: any): string[] {
 
   // 副露率
   if (stats['副露率']) {
-    const val = parseFloat(playerData['副露率']);
+    const val = parseFloat(playerData['副露率'] || '0');
     const { mean, stdDev } = stats['副露率'];
     if (val > mean + stdDev) {
       advice.push('鳴きを多用するスタイル。速度重視です。');
@@ -57,7 +116,7 @@ function generateAdvice(playerData: any, stats: any): string[] {
 
   // 和了率
   if (stats['和了率']) {
-    const val = parseFloat(playerData['和了率']);
+    const val = parseFloat(playerData['和了率'] || '0');
     const { mean, stdDev } = stats['和了率'];
     if (val > mean + stdDev) {
       advice.push('和了率が高い。安定した成績が期待できます。');
@@ -86,52 +145,11 @@ export default function PlayerAnalysisGrid({
         プレイヤー分析
       </Typography>
       <Grid container spacing={1.5}>
-        {players.slice(0, 4).map((player: any, idx: number) => {
-          const advice = generateAdvice(player, stats);
-
-          return (
-            <Grid size={6} key={idx}>
-              <Paper
-                variant="outlined"
-                sx={{
-                  p: 0.5,
-                  borderColor: 'black',
-                  borderWidth: 1,
-                }}
-              >
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-                  <Box
-                    sx={{
-                      width: 14,
-                      height: 14,
-                      borderRadius: '50%',
-                      border: 1,
-                      borderColor: 'black',
-                      bgcolor: colors[idx],
-                    }}
-                  />
-                  <Typography variant="body2" component="h4" sx={{ fontWeight: 'bold', color: 'black' }}>
-                    {player['名前'] || `プレイヤー ${idx + 1}`}
-                  </Typography>
-                </Box>
-                <PlayerRadarChart playerData={player} color={colors[idx]} />
-                <Box sx={{ bgcolor: 'grey.50', borderRadius: 1, p: 0.5 }}>
-                  <Typography variant="caption" sx={{ fontWeight: 'bold' }}>
-                    アドバイス:
-                  </Typography>
-                  <List dense disablePadding sx={{ pl: 1 }}>
-                    {advice.map((item, i) => (
-                      <ListItem key={i} disableGutters sx={{ display: 'flex', gap: 0.5, py: 0.25 }}>
-                        <Typography variant="caption" component="span">•</Typography>
-                        <Typography variant="caption" component="span">{item}</Typography>
-                      </ListItem>
-                    ))}
-                  </List>
-                </Box>
-              </Paper>
-            </Grid>
-          );
-        })}
+        {players.slice(0, 4).map((player: PlayerStats, idx: number) => (
+          <Grid size={6} key={idx}>
+            <PlayerCard player={player} color={colors[idx]} stats={stats} />
+          </Grid>
+        ))}
       </Grid>
     </Stack>
   );

@@ -3,18 +3,15 @@
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer } from 'recharts';
 import { memo } from 'react';
 import { Box } from '@mui/material';
-
-interface PlayerStats {
-  [key: string]: string;
-}
+import { PlayerStats } from '@/lib/types';
 
 interface RadarChartProps {
-  playerData: PlayerStats;
+  playerData?: PlayerStats;
   color?: string;
 }
 
 const createRadarValue = (data: PlayerStats, column: string, min: number, max: number): number => {
-  const val = Number(data[column]);
+  const val = Number(data[column] || 0);
 
   if (val > max) return 1;
   if (val < min) return 0;
@@ -22,6 +19,11 @@ const createRadarValue = (data: PlayerStats, column: string, min: number, max: n
 };
 
 const PlayerRadarChart = memo(function PlayerRadarChart({ playerData, color = '#69b3a2' }: RadarChartProps) {
+  // playerData が undefined の場合は何も表示しない
+  if (!playerData) {
+    return null;
+  }
+
   const data = [
     {
       axis: "攻",

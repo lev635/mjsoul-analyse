@@ -14,13 +14,11 @@
     "@emotion/styled": "^11.14.1",
     "@mui/material": "^7.3.4",
     "@mui/material-nextjs": "^7.3.3",
-    "@types/react-modal": "^3.16.3",
     "next": "15.5.4",
     "papaparse": "^5.5.3",
     "puppeteer": "^24.23.0",
     "react": "19.1.0",
     "react-dom": "19.1.0",
-    "react-modal": "^3.16.3",
     "recharts": "^3.2.1"
   },
   "devDependencies": {

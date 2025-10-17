@@ -71,7 +71,6 @@ export default function Home() {
       sx={{
         bgcolor: 'grey.100',
         p: 2,
-        overflow: 'hidden',
         gap: 2,
       }}
     >
@@ -96,7 +95,6 @@ export default function Home() {
           sx={{
             fontSize: '1.125rem',
             fontWeight: 'bold',
-            textDecoration: 'underline',
             textTransform: 'none',
           }}
         >
@@ -114,10 +112,9 @@ export default function Home() {
           maxWidth: '1920px',
           width: '100%',
           mx: 'auto',
-          flex: 1,
         }}
       >
-        <Box sx={{ flex: 2, minHeight: 0 }}>
+        <Box sx={{ flex: 2 }}>
           <ScatterPlotSection
             scatterData={scatterData}
             playerScatterPoints={playerScatterPoints}
@@ -125,7 +122,7 @@ export default function Home() {
           />
         </Box>
 
-        <Box sx={{ flex: 1, minHeight: 0 }}>
+        <Box sx={{ flex: 1 }}>
           <PlayerSearchSection
             playerNames={playerNames}
             setPlayerNames={setPlayerNames}

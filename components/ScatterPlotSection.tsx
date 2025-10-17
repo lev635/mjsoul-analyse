@@ -1,11 +1,12 @@
-import { useState, useMemo } from 'react';
-import { Box, Typography, Paper } from '@mui/material';
+import { useState, useMemo, useCallback } from 'react';
+import { Box, Typography } from '@mui/material';
 import ScatterPlot, { RANK_VALUES, type RankValue } from '@/components/ScatterPlot';
 import ScatterPlotControls from '@/components/ScatterPlotControls';
+import { ScatterDataPoint, PlayerScatterPoint } from '@/lib/types';
 
 interface ScatterPlotSectionProps {
-  scatterData: any[];
-  playerScatterPoints: any[];
+  scatterData: ScatterDataPoint[];
+  playerScatterPoints: PlayerScatterPoint[];
   axisOptions: string[];
 }
 
@@ -46,25 +47,40 @@ export default function ScatterPlotSection({
   const [yAxis, setYAxis] = useState('和了率');
   const [visibleRanks, setVisibleRanks] = useState<readonly RankValue[]>([...RANK_VALUES]);
 
+  // ランクごとにデータを事前分割
+  const dataByRank = useMemo(() => {
+    const grouped: Record<RankValue, ScatterDataPoint[]> = {
+      '金の間': [], '玉の間': [], '王座の間': []
+    };
+    scatterData.forEach(item => {
+      const rank = item['rank'] as RankValue;
+      if (grouped[rank]) grouped[rank].push(item);
+    });
+    return grouped;
+  }, [scatterData]);
+
+  // 表示するランクのデータのみを結合
+  const filteredData = useMemo(() => {
+    return visibleRanks.flatMap(rank => dataByRank[rank] || []);
+  }, [dataByRank, visibleRanks]);
+
   const xDomain = useMemo(() => axisDomains[xAxis] || defaultDomain, [xAxis]);
   const yDomain = useMemo(() => axisDomains[yAxis] || defaultDomain, [yAxis]);
 
-  const toggleRank = (rank: RankValue) => {
+  const toggleRank = useCallback((rank: RankValue) => {
     setVisibleRanks(prev =>
       prev.includes(rank)
         ? prev.filter(r => r !== rank)
         : [...prev, rank]
     );
-  };
+  }, []);
 
   return (
-    <Paper
+    <Box
       component="section"
-      elevation={1}
       sx={{
-        flex: 1,
         p: 2,
-        height: '100%',
+        height: 1000,
         display: 'flex',
         flexDirection: 'column',
         gap: 1,
@@ -76,7 +92,7 @@ export default function ScatterPlotSection({
       <Box sx={{ display: 'flex', gap: 2, flex: 1, minHeight: 0 }}>
         <Box sx={{ flex: 1, minHeight: 0 }}>
           <ScatterPlot
-            data={scatterData}
+            data={filteredData}
             xKey={xAxis}
             yKey={yAxis}
             xLabel={xAxis}
@@ -84,7 +100,6 @@ export default function ScatterPlotSection({
             xDomain={xDomain}
             yDomain={yDomain}
             playerPoints={playerScatterPoints}
-            visibleRanks={visibleRanks}
           />
         </Box>
 
@@ -98,6 +113,6 @@ export default function ScatterPlotSection({
           onToggleRank={toggleRank}
         />
       </Box>
-    </Paper>
+    </Box>
   );
 }
