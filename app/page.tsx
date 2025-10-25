@@ -94,7 +94,7 @@ export default function Home() {
           gap: 4,
         }}
       >
-        <Typography variant="h4" component="h2" sx={{ fontWeight: 'bold', color: 'grey.800' }}>
+        <Typography variant="h3" component="h2" sx={{ fontWeight: 'bold' }}>
           じゃんたま分析くん
         </Typography>
         <Button
@@ -103,6 +103,7 @@ export default function Home() {
           sx={{
             fontWeight: 'bold',
             textTransform: 'none',
+            fontSize: '1.1rem',
           }}
         >
           使い方
@@ -116,7 +117,7 @@ export default function Home() {
         spacing={2}
         sx={{ flex: 1 }}
       >
-        <Grid size={8} sx={{ height: '100%' }}>
+        <Grid size={7.5} sx={{ height: '100%' }}>
           <ScatterPlotSection
             scatterData={scatterData}
             playerScatterPoints={playerScatterPoints}
@@ -124,7 +125,7 @@ export default function Home() {
           />
         </Grid>
 
-        <Grid size={4} sx={{ height: '100%' }}>
+        <Grid size={4.5} sx={{ height: '100%' }}>
           <PlayerSearchSection
             playerNames={playerNames}
             setPlayerNames={setPlayerNames}

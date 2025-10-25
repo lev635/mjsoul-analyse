@@ -29,7 +29,7 @@ export default function PlayerInputTable({
   return (
     <Grid container spacing={1}>
       <Grid size={12}>
-        <Typography variant="h5" component="h2" sx={{ fontWeight: 'bold' }}>
+        <Typography variant="h4" component="h2" sx={{ fontWeight: 'bold' }}>
           プレイヤー検索
         </Typography>
       </Grid>
@@ -52,6 +52,7 @@ export default function PlayerInputTable({
             },
             '& .MuiOutlinedInput-input': {
               padding: '4px 8px',
+              fontSize: '1rem',
             },
           }}
         />
@@ -75,6 +76,7 @@ export default function PlayerInputTable({
             },
             '& .MuiOutlinedInput-input': {
               padding: '4px 8px',
+              fontSize: '1rem',
             },
           }}
         />
@@ -103,7 +105,7 @@ export default function PlayerInputTable({
               width: 80,
               height: 80,
               fontWeight: 'bold',
-              fontSize: '0.75rem',
+              fontSize: '1rem',
               '&:hover': { bgcolor: 'grey.100' },
               '&.Mui-disabled': {
                 bgcolor: 'grey.300',
@@ -131,6 +133,7 @@ export default function PlayerInputTable({
             },
             '& .MuiOutlinedInput-input': {
               padding: '4px 8px',
+              fontSize: '1rem',
             },
           }}
         />
@@ -154,6 +157,7 @@ export default function PlayerInputTable({
             },
             '& .MuiOutlinedInput-input': {
               padding: '4px 8px',
+              fontSize: '1rem',
             },
           }}
         />

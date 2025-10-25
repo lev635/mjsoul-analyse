@@ -21,37 +21,37 @@ export default function HelpModal({ isOpen, onClose }: HelpModalProps) {
     >
       <DialogTitle>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <Typography variant="h5" component="span" sx={{ fontWeight: 'bold' }}>
+          <Typography variant="h4" component="span" sx={{ fontWeight: 'bold' }}>
             使い方
           </Typography>
           <IconButton onClick={onClose} size="small">
-            <Typography variant="h6">×</Typography>
+            <Typography variant="h5">×</Typography>
           </IconButton>
         </Box>
       </DialogTitle>
       <DialogContent>
         <Stack spacing={2}>
           <Box component="section">
-            <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+            <Typography variant="h5" sx={{ fontWeight: 'bold' }}>
               1. プレイヤー検索
             </Typography>
-            <Typography variant="body2">
+            <Typography variant="body1">
               右側のテキストボックスにプレイヤー名を入力し、「取得」ボタンを押すとプレイヤーのデータが取得されます。
             </Typography>
           </Box>
           <Box component="section">
-            <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+            <Typography variant="h5" sx={{ fontWeight: 'bold' }}>
               2. 散布図
             </Typography>
-            <Typography variant="body2">
+            <Typography variant="body1">
               左側の散布図では、横軸・縦軸の指標を選択してプレイヤーの分布を確認できます。
             </Typography>
           </Box>
           <Box component="section">
-            <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+            <Typography variant="h5" sx={{ fontWeight: 'bold' }}>
               3. プレイヤー分析
             </Typography>
-            <Typography variant="body2">
+            <Typography variant="body1">
               検索したプレイヤーのレーダーチャートとアドバイスが表示されます。各プレイヤーの特徴やプレイスタイルを確認できます。
             </Typography>
           </Box>

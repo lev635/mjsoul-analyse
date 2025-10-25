@@ -88,7 +88,7 @@ export default function ScatterPlotSection({
       }}
     >
       <Grid size={12} sx={{ flexShrink: 0 }}>
-        <Typography variant="h5" component="h2" sx={{ fontWeight: 'bold', textAlign: 'left' }}>
+        <Typography variant="h4" component="h2" sx={{ fontWeight: 'bold', textAlign: 'left' }}>
           データ
         </Typography>
       </Grid>

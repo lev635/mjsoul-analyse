@@ -41,35 +41,37 @@ const ScatterPlotControls = memo(function ScatterPlotControls({
   return (
     <Stack sx={{ gap: 2 }}>
       <FormControl fullWidth size="small">
-        <InputLabel id="x-axis-label">X軸</InputLabel>
+        <InputLabel id="x-axis-label" sx={{ fontSize: '1rem' }}>X軸</InputLabel>
         <Select
           labelId="x-axis-label"
           value={xAxis}
           label="X軸"
           onChange={handleXAxisChange}
+          sx={{ fontSize: '1rem' }}
         >
           {axisOptions.map(key => (
-            <MenuItem key={key} value={key}>{key}</MenuItem>
+            <MenuItem key={key} value={key} sx={{ fontSize: '1rem' }}>{key}</MenuItem>
           ))}
         </Select>
       </FormControl>
 
       <FormControl fullWidth size="small">
-        <InputLabel id="y-axis-label">Y軸</InputLabel>
+        <InputLabel id="y-axis-label" sx={{ fontSize: '1rem' }}>Y軸</InputLabel>
         <Select
           labelId="y-axis-label"
           value={yAxis}
           label="Y軸"
           onChange={handleYAxisChange}
+          sx={{ fontSize: '1rem' }}
         >
           {axisOptions.map(key => (
-            <MenuItem key={key} value={key}>{key}</MenuItem>
+            <MenuItem key={key} value={key} sx={{ fontSize: '1rem' }}>{key}</MenuItem>
           ))}
         </Select>
       </FormControl>
 
       <Box>
-        <FormLabel component="legend" sx={{ fontSize: '0.875rem', fontWeight: 'medium' }}>
+        <FormLabel component="legend" sx={{ fontSize: '1rem', fontWeight: 'medium' }}>
           ランクフィルター
         </FormLabel>
         <Stack sx={{ gap: 0.5 }}>
@@ -84,7 +86,7 @@ const ScatterPlotControls = memo(function ScatterPlotControls({
                 />
               }
               label={rank}
-              sx={{ fontSize: '0.875rem' }}
+              sx={{ '& .MuiFormControlLabel-label': { fontSize: '1rem' } }}
             />
           ))}
         </Stack>

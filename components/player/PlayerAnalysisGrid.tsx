@@ -49,7 +49,7 @@ const PlayerCard = memo(function PlayerCard({ player, color, stats }: PlayerCard
               bgcolor: color,
             }}
           />
-          <Typography variant="body2" component="h4" sx={{ fontWeight: 'bold', color: 'black' }}>
+          <Typography variant="body1" component="h4" sx={{ fontWeight: 'bold', color: 'black' }}>
             {player['名前'] || 'プレイヤー'}
           </Typography>
         </Box>
@@ -64,20 +64,20 @@ const PlayerCard = memo(function PlayerCard({ player, color, stats }: PlayerCard
       {viewMode === 'chart' ? (
         <Box>
           <PlayerRadarChart playerData={player} color={color} />
-          <Typography variant="caption" sx={{ fontWeight: 'bold' }}>
+          <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
             アドバイス:
           </Typography>
           <List dense disablePadding sx={{ pl: 2, listStyleType: 'disc' }}>
             {advice.map((item, i) => (
               <ListItem key={i} disableGutters sx={{ display: 'list-item', p: 0 }}>
-                <Typography variant="caption">{item}</Typography>
+                <Typography variant="body2">{item}</Typography>
               </ListItem>
             ))}
           </List>
         </Box>
       ) : (
         <Box>
-          <Typography sx={{ fontWeight: 'bold', display: 'block' }}>
+          <Typography variant="body2" sx={{ fontWeight: 'bold', display: 'block' }}>
             統計情報:
           </Typography>
           <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 0.5 }}>
@@ -93,7 +93,7 @@ const PlayerCard = memo(function PlayerCard({ player, color, stats }: PlayerCard
 
                 return (
                   <Box key={key}>
-                    <Typography variant="caption">
+                    <Typography variant="body2">
                       {key}: {displayValue}
                     </Typography>
                   </Box>
@@ -186,7 +186,7 @@ export default function PlayerAnalysisGrid({
   return (
     <Grid container spacing={1}>
       <Grid size={12}>
-        <Typography variant="h5" component="h2" sx={{ fontWeight: 'bold' }}>
+        <Typography variant="h4" component="h2" sx={{ fontWeight: 'bold' }}>
           プレイヤー分析
         </Typography>
       </Grid>

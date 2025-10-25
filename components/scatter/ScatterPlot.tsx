@@ -93,21 +93,21 @@ const ScatterPlot = memo(function ScatterPlot({
           type="number"
           dataKey={xKey}
           domain={xDomain}
-          tick={{ fill: '#000', fontSize: 12 }}
+          tick={{ fill: '#000', fontSize: 14 }}
           tickFormatter={(value) => value.toFixed(2)}
           allowDataOverflow={true}
         >
-          <Label value={xLabel} offset={-20} position="insideBottom" style={{ fontSize: 14, fill: '#000' }} />
+          <Label value={xLabel} offset={-20} position="insideBottom" style={{ fontSize: 16, fill: '#000' }} />
         </XAxis>
         <YAxis
           type="number"
           dataKey={yKey}
           domain={yDomain}
-          tick={{ fill: '#000', fontSize: 12 }}
+          tick={{ fill: '#000', fontSize: 14 }}
           tickFormatter={(value) => value.toFixed(2)}
           allowDataOverflow={true}
         >
-          <Label value={yLabel} angle={-90} position="insideLeft" style={{ fontSize: 14, fill: '#000', textAnchor: 'middle' }} />
+          <Label value={yLabel} angle={-90} position="insideLeft" style={{ fontSize: 16, fill: '#000', textAnchor: 'middle' }} />
         </YAxis>
         <Tooltip
           cursor={{ strokeDasharray: '3 3' }}

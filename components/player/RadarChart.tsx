@@ -52,7 +52,7 @@ const PlayerRadarChart = memo(function PlayerRadarChart({ playerData, color = '#
       <ResponsiveContainer width="100%" height="100%">
         <RadarChart data={data} margin={{ top: 10, right: 10, bottom: 10, left: 10 }}>
           <PolarGrid stroke="#999" />
-          <PolarAngleAxis dataKey="axis" tick={{ fill: '#000', fontSize: 14 }} />
+          <PolarAngleAxis dataKey="axis" tick={{ fill: '#000', fontSize: 16 }} />
           <PolarRadiusAxis angle={90} domain={[0, 1]} tick={false} />
           <Radar
             name="Player Stats"
