@@ -2,12 +2,14 @@ import PlayerRadarChart from '@/components/player/RadarChart';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
-import Stack from '@mui/material/Stack';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import Grid from '@mui/material/Grid';
+import IconButton from '@mui/material/IconButton';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import { PlayerStats, Stats } from '@/lib/types';
-import { useMemo, memo } from 'react';
+import { useMemo, memo, useState } from 'react';
 
 interface PlayerAnalysisGridProps {
   players: PlayerStats[];
@@ -21,9 +23,9 @@ interface PlayerCardProps {
   stats: Stats;
 }
 
-// プレイヤーカードをメモ化
 const PlayerCard = memo(function PlayerCard({ player, color, stats }: PlayerCardProps) {
   const advice = useMemo(() => generateAdvice(player, stats), [player, stats]);
+  const [viewMode, setViewMode] = useState<'chart' | 'stats'>('chart');
 
   return (
     <Paper
@@ -32,37 +34,66 @@ const PlayerCard = memo(function PlayerCard({ player, color, stats }: PlayerCard
         p: 0.5,
         borderColor: 'black',
         borderWidth: 1,
+        height: '100%'
       }}
     >
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-        <Box
-          sx={{
-            width: 14,
-            height: 14,
-            borderRadius: '50%',
-            border: 1,
-            borderColor: 'black',
-            bgcolor: color,
-          }}
-        />
-        <Typography variant="body2" component="h4" sx={{ fontWeight: 'bold', color: 'black' }}>
-          {player['名前'] || 'プレイヤー'}
-        </Typography>
+      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+          <Box
+            sx={{
+              width: 14,
+              height: 14,
+              borderRadius: '50%',
+              border: 1,
+              borderColor: 'black',
+              bgcolor: color,
+            }}
+          />
+          <Typography variant="body2" component="h4" sx={{ fontWeight: 'bold', color: 'black' }}>
+            {player['名前'] || 'プレイヤー'}
+          </Typography>
+        </Box>
+        <IconButton
+          size="small"
+          onClick={() => setViewMode(viewMode === 'chart' ? 'stats' : 'chart')}
+          sx={{ padding: 0.25 }}
+        >
+          {viewMode === 'chart' ? <KeyboardArrowRightIcon fontSize="small" /> : <KeyboardArrowDownIcon fontSize="small" />}
+        </IconButton>
       </Box>
-      <PlayerRadarChart playerData={player} color={color} />
-      <Box sx={{ bgcolor: 'grey.50', borderRadius: 1, p: 0.5 }}>
-        <Typography variant="caption" sx={{ fontWeight: 'bold' }}>
-          アドバイス:
-        </Typography>
-        <List dense disablePadding sx={{ pl: 1 }}>
-          {advice.map((item, i) => (
-            <ListItem key={i} disableGutters sx={{ display: 'flex', gap: 0.5, py: 0.25 }}>
-              <Typography variant="caption" component="span">•</Typography>
-              <Typography variant="caption" component="span">{item}</Typography>
-            </ListItem>
-          ))}
-        </List>
-      </Box>
+      {viewMode === 'chart' ? (
+        <Box>
+          <PlayerRadarChart playerData={player} color={color} />
+          <Typography variant="caption" sx={{ fontWeight: 'bold' }}>
+            アドバイス:
+          </Typography>
+          <List dense disablePadding sx={{ pl: 2, listStyleType: 'disc' }}>
+            {advice.map((item, i) => (
+              <ListItem key={i} disableGutters sx={{ display: 'list-item', p: 0 }}>
+                <Typography variant="caption">{item}</Typography>
+              </ListItem>
+            ))}
+          </List>
+        </Box>
+      ) : (
+        <Box>
+          <Typography sx={{ fontWeight: 'bold', display: 'block' }}>
+            統計情報:
+          </Typography>
+          <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 0.5 }}>
+            {['和了率', '放銃率', 'ツモ率', 'ダマ率', '流局率', '流局聴牌率', '副露率', '立直率', '和了巡数', '平均和了']
+              .map((key) => (
+                <Box key={key}>
+                  <Typography variant="caption">
+                    {key}: {typeof player[key] === 'string' && !isNaN(parseFloat(player[key]))
+                      ? parseFloat(player[key]).toFixed(4)
+                      : player[key]}
+                  </Typography>
+                </Box>
+              ))}
+          </Box>
+        </Box>
+      )}
     </Paper>
   );
 });

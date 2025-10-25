@@ -20,7 +20,7 @@ function endsWithPercent(s: string): boolean {
 }
 
 function translateKeys(data: PlayerData): PlayerData {
-  const nameEng = [
+  const keyEng = [
     'Recorded matches', 'Current rank', 'Current rk points', 'Win rate', 'Deal-in rate',
     'Tsumo rate', 'Dama rate', 'Exhaustive draw rate', 'Draw tenpai rate', 'Call rate',
     'Riichi rate', 'Avg turns to win', 'Average win score', 'Average deal-in score',
@@ -34,7 +34,7 @@ function translateKeys(data: PlayerData): PlayerData {
     'Net win efficiency', 'G/L per round', 'Total rounds'
   ];
 
-  const nameJap = [
+  const key = [
     '記録対戦数', '記録段位', '記録点数', '和了率', '放銃率', 'ツモ率', 'ダマ率', '流局率',
     '流局聴牌率', '副露率', '立直率', '和了巡数', '平均和了', '平均放銃', '平均順位', '飛び率',
     '安定段位', '点数期待', '立直和了', '立直放銃A', '立直放銃B', '立直収支', '立直収入',
@@ -49,11 +49,11 @@ function translateKeys(data: PlayerData): PlayerData {
   }
 
   const translated: PlayerData = {};
-  for (let i = 0; i < nameEng.length; i++) {
-    if (nameEng[i] in data) {
-      translated[nameJap[i]] = data[nameEng[i]];
+  for (let i = 0; i < keyEng.length; i++) {
+    if (keyEng[i] in data) {
+      translated[key[i]] = data[keyEng[i]];
     } else {
-      translated[nameJap[i]] = '';
+      translated[key[i]] = '';
     }
   }
 
@@ -87,7 +87,7 @@ function processPercentages(data: PlayerData): PlayerData {
 }
 
 export async function scrapePlayerData(
-  playerName: string,
+  playerkey: string,
   rank: 'g' | 'b' | 'k' = 'g'
 ): Promise<PlayerData> {
   const browser = await puppeteer.launch({
@@ -102,13 +102,13 @@ export async function scrapePlayerData(
     const searchBoxSelector = 'input[type="text"]';
     await page.waitForSelector(searchBoxSelector);
 
-    await page.type(searchBoxSelector, playerName);
+    await page.type(searchBoxSelector, playerkey);
     await new Promise(resolve => setTimeout(resolve, 2000));
     await page.keyboard.press('ArrowDown');
     await page.keyboard.press('Enter');
 
     const selector = '#root > div > div:nth-child(3) > div.MuiBox-root.css-guflfy > div.MuiBox-root.css-0 > div > div.MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-md-8.css-efwuvd > h5';
-    await page.waitForSelector(selector, { timeout: 10000 });
+    await page.waitForSelector(selector, { timeout: 5000 });
 
     const currentUrl = page.url();
     const playerId = currentUrl.split('/')[4];
@@ -121,9 +121,9 @@ export async function scrapePlayerData(
       await page.goto(urlMain + op);
 
       const waitSelector = '#root > div > div:nth-child(3) > div.MuiBox-root.css-guflfy > div.MuiBox-root.css-0 > div > div.MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-md-8.css-efwuvd > div.MuiBox-root.css-1u3q4k3 > div:nth-child(16) > p';
-      await page.waitForSelector(waitSelector, { timeout: 10000 });
+      await page.waitForSelector(waitSelector, { timeout: 5000 });
 
-      const names = await page.$$eval('h6', elements =>
+      const keys = await page.$$eval('h6', elements =>
         elements.slice(0, 16).map(el => el.textContent || '')
       );
       const values = await page.$$eval(
@@ -131,8 +131,8 @@ export async function scrapePlayerData(
         elements => elements.slice(0, 16).map(el => el.textContent || '')
       );
 
-      for (let i = 0; i < Math.min(names.length, values.length); i++) {
-        data[names[i]] = values[i];
+      for (let i = 0; i < Math.min(keys.length, values.length); i++) {
+        data[keys[i]] = values[i];
       }
     }
 
@@ -148,14 +148,14 @@ export async function scrapePlayerData(
       const winRate = Number(processed['和了率']);
       const damaRate = Number(processed['ダマ率']);
       const callRate = Number(processed['副露率']);
-      const winAfterCall = Number(processed['副露後和了率']);
+      const winAfterCallRate = Number(processed['副露後和了率']);
       const riichiRate = Number(processed['立直率']);
-      const riichiWin = Number(processed['立直和了']);
+      const riichiWinRate = Number(processed['立直和了']);
 
       const winNum = totalRounds * winRate;
       const numDama = winNum * damaRate;
-      const numHuro = totalRounds * callRate * winAfterCall;
-      const numRiichi = totalRounds * riichiRate * riichiWin;
+      const numHuro = totalRounds * callRate * winAfterCallRate;
+      const numRiichi = totalRounds * riichiRate * riichiWinRate;
 
       if (winNum > 0) {
         processed['和了時立直率'] = (numRiichi / winNum).toFixed(4);

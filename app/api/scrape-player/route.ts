@@ -24,10 +24,10 @@ export async function POST(request: NextRequest) {
     data['名前'] = playerName;
 
     return NextResponse.json(data);
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error scraping player data:', error);
     return NextResponse.json(
-      { error: error.message || 'Failed to scrape player data' },
+      { error: error instanceof Error ? error.message : 'Failed to scrape player data' },
       { status: 500 }
     );
   }

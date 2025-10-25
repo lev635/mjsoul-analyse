@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction } from 'react';
 import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -26,72 +27,63 @@ export default function PlayerInputTable({
   };
 
   return (
-    <>
-      <Typography variant="h5" component="h2" sx={{ fontWeight: 'bold', textAlign: 'left' }}>
-        プレイヤー検索
-      </Typography>
-      <Box sx={{ position: 'relative', height: 280 }}>
-        {/* 対面 */}
-        <Box
-          sx={{
-            position: 'absolute',
-            top: 0,
-            left: '50%',
-            transform: 'translateX(-50%)',
-            display: 'flex',
-            alignItems: 'center',
-            gap: 1.5,
-          }}
-        >
-          <Box sx={{ width: 16, height: 16, borderRadius: '50%', bgcolor: colors[2], border: 1, borderColor: 'black' }} />
-          <TextField
-            placeholder="対面"
-            value={playerNames[2]}
-            onChange={(e) => handleNameChange(2, e.target.value)}
-            size="small"
-            sx={{
-              width: 112,
-              '& .MuiOutlinedInput-root': {
-                '& fieldset': { borderWidth: 2, borderColor: 'black' },
-              },
-            }}
-          />
-        </Box>
+    <Grid container spacing={1}>
+      <Grid size={12}>
+        <Typography variant="h5" component="h2" sx={{ fontWeight: 'bold' }}>
+          プレイヤー検索
+        </Typography>
+      </Grid>
 
-        {/* 上家 */}
-        <Box
-          sx={{
-            position: 'absolute',
-            top: '50%',
-            left: 0,
-            transform: 'translateY(-50%)',
-            display: 'flex',
-            alignItems: 'center',
-            gap: 1.5,
-          }}
-        >
-          <Box sx={{ width: 16, height: 16, borderRadius: '50%', bgcolor: colors[3], border: 1, borderColor: 'black' }} />
-          <TextField
-            placeholder="上家"
-            value={playerNames[3]}
-            onChange={(e) => handleNameChange(3, e.target.value)}
-            size="small"
-            sx={{
-              width: 112,
-              '& .MuiOutlinedInput-root': {
-                '& fieldset': { borderWidth: 2, borderColor: 'black' },
-              },
-            }}
-          />
-        </Box>
+      {/* 空白 */}
+      <Grid size={4} />
 
-        {/* ボタン */}
+      {/* 対面 */}
+      <Grid size={4} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 1.5, pr: 1 }}>
+        <Box sx={{ width: 16, height: 16, borderRadius: '50%', bgcolor: colors[2], border: 1, borderColor: 'black' }} />
+        <TextField
+          placeholder="対面"
+          value={playerNames[2]}
+          onChange={(e) => handleNameChange(2, e.target.value)}
+          size="small"
+          sx={{
+            width: 112,
+            '& .MuiOutlinedInput-root': {
+              '& fieldset': { borderWidth: 2, borderColor: 'black' },
+            },
+            '& .MuiOutlinedInput-input': {
+              padding: '4px 8px',
+            },
+          }}
+        />
+      </Grid>
+
+      {/* 空白 */}
+      <Grid size={4} />
+
+      {/* 上家 */}
+      <Grid size={4} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 1.5 }}>
+        <Box sx={{ width: 16, height: 16, borderRadius: '50%', bgcolor: colors[3], border: 1, borderColor: 'black' }} />
+        <TextField
+          placeholder="上家"
+          value={playerNames[3]}
+          onChange={(e) => handleNameChange(3, e.target.value)}
+          size="small"
+          sx={{
+            width: 112,
+            '& .MuiOutlinedInput-root': {
+              '& fieldset': { borderWidth: 2, borderColor: 'black' },
+            },
+            '& .MuiOutlinedInput-input': {
+              padding: '4px 8px',
+            },
+          }}
+        />
+      </Grid>
+
+      {/* ボタン */}
+      <Grid size={4} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
         <Box
           sx={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
             width: 128,
             height: 128,
             bgcolor: '#15803d',
@@ -108,8 +100,8 @@ export default function PlayerInputTable({
             sx={{
               bgcolor: 'white',
               color: '#15803d',
-              width: 64,
-              height: 64,
+              width: 80,
+              height: 80,
               fontWeight: 'bold',
               fontSize: '0.75rem',
               '&:hover': { bgcolor: 'grey.100' },
@@ -119,64 +111,56 @@ export default function PlayerInputTable({
               },
             }}
           >
-            取得
+            {scraping ? '取得中' : '取得'}
           </Button>
         </Box>
+      </Grid>
 
-        {/* 下家 */}
-        <Box
+      {/* 下家 */}
+      <Grid size={4} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 1.5 }}>
+        <Box sx={{ width: 16, height: 16, borderRadius: '50%', bgcolor: colors[1], border: 1, borderColor: 'black' }} />
+        <TextField
+          placeholder="下家"
+          value={playerNames[1]}
+          onChange={(e) => handleNameChange(1, e.target.value)}
+          size="small"
           sx={{
-            position: 'absolute',
-            top: '50%',
-            right: 0,
-            transform: 'translateY(-50%)',
-            display: 'flex',
-            alignItems: 'center',
-            gap: 1.5,
+            width: 112,
+            '& .MuiOutlinedInput-root': {
+              '& fieldset': { borderWidth: 2, borderColor: 'black' },
+            },
+            '& .MuiOutlinedInput-input': {
+              padding: '4px 8px',
+            },
           }}
-        >
-          <Box sx={{ width: 16, height: 16, borderRadius: '50%', bgcolor: colors[1], border: 1, borderColor: 'black' }} />
-          <TextField
-            placeholder="下家"
-            value={playerNames[1]}
-            onChange={(e) => handleNameChange(1, e.target.value)}
-            size="small"
-            sx={{
-              width: 112,
-              '& .MuiOutlinedInput-root': {
-                '& fieldset': { borderWidth: 2, borderColor: 'black' },
-              },
-            }}
-          />
-        </Box>
+        />
+      </Grid>
 
-        {/* 自家 */}
-        <Box
+      {/* 空白 */}
+      <Grid size={4} />
+
+      {/* 自家 */}
+      <Grid size={4} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 1.5, pr: 1 }}>
+        <Box sx={{ width: 16, height: 16, borderRadius: '50%', bgcolor: colors[0], border: 1, borderColor: 'black' }} />
+        <TextField
+          placeholder="自家"
+          value={playerNames[0]}
+          onChange={(e) => handleNameChange(0, e.target.value)}
+          size="small"
           sx={{
-            position: 'absolute',
-            bottom: 0,
-            left: '50%',
-            transform: 'translateX(-50%)',
-            display: 'flex',
-            alignItems: 'center',
-            gap: 1.5,
+            width: 112,
+            '& .MuiOutlinedInput-root': {
+              '& fieldset': { borderWidth: 2, borderColor: 'black' },
+            },
+            '& .MuiOutlinedInput-input': {
+              padding: '4px 8px',
+            },
           }}
-        >
-          <Box sx={{ width: 16, height: 16, borderRadius: '50%', bgcolor: colors[0], border: 1, borderColor: 'black' }} />
-          <TextField
-            placeholder="自家"
-            value={playerNames[0]}
-            onChange={(e) => handleNameChange(0, e.target.value)}
-            size="small"
-            sx={{
-              width: 112,
-              '& .MuiOutlinedInput-root': {
-                '& fieldset': { borderWidth: 2, borderColor: 'black' },
-              },
-            }}
-          />
-        </Box>
-      </Box>
-    </>
+        />
+      </Grid>
+
+      {/* 空白 */}
+      <Grid size={4} />
+    </Grid>
   );
 }

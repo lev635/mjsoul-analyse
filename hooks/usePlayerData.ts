@@ -1,9 +1,11 @@
 import { useState, useCallback, useRef } from 'react';
 
+import { PlayerStats } from '@/lib/types';
+
 // キャッシュの型定義
 interface PlayerCache {
   [playerName: string]: {
-    data: any;
+    data: PlayerStats;
     timestamp: number;
   };
 }
@@ -12,7 +14,7 @@ const CACHE_DURATION = 1000 * 60 * 30; // 30分
 
 export function usePlayerData() {
   const [playerNames, setPlayerNames] = useState<string[]>(['', '', '', '']);
-  const [scrapedPlayers, setScrapedPlayers] = useState<any[]>([]);
+  const [scrapedPlayers, setScrapedPlayers] = useState<PlayerStats[]>([]);
   const [scraping, setScraping] = useState(false);
 
   // キャッシュをuseRefで管理（再レンダリングでも保持される）

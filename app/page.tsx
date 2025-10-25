@@ -18,8 +18,13 @@ import {
   colors
 } from '@/lib/dataTransformers';
 
+interface DataResponse {
+  data: string[][];
+  label: Record<string, number>;
+}
+
 export default function Home() {
-  const [data, setData] = useState<any>(null);
+  const [data, setData] = useState<DataResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [showHelp, setShowHelp] = useState(false);
 
@@ -87,17 +92,15 @@ export default function Home() {
           display: 'flex',
           alignItems: 'flex-start',
           gap: 4,
-          mx: 'auto',
         }}
       >
-        <Typography variant="h4" component="h2" sx={{ fontWeight: 'bold' }}>
+        <Typography variant="h4" component="h2" sx={{ fontWeight: 'bold', color: 'grey.800' }}>
           じゃんたま分析くん
         </Typography>
         <Button
           onClick={() => setShowHelp(true)}
           variant="text"
           sx={{
-            fontSize: '1.125rem',
             fontWeight: 'bold',
             textTransform: 'none',
           }}

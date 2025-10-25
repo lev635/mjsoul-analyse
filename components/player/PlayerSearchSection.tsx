@@ -27,7 +27,7 @@ export default function PlayerSearchSection({
     <Grid
       container
       component="section"
-      spacing={1}
+      spacing={2}
     >
       <Grid size={12}>
         <PlayerInputTable

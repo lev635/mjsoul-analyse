@@ -48,7 +48,7 @@ const PlayerRadarChart = memo(function PlayerRadarChart({ playerData, color = '#
   ];
 
   return (
-    <Box sx={{ width: '100%', height: 180 }}>
+    <Box sx={{ width: '100%', height: 160 }}>
       <ResponsiveContainer width="100%" height="100%">
         <RadarChart data={data} margin={{ top: 10, right: 10, bottom: 10, left: 10 }}>
           <PolarGrid stroke="#999" />

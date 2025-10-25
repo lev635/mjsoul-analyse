@@ -41,7 +41,7 @@ const CustomTooltip = ({ active, xKey, yKey, xLabel, yLabel, hoveredData }: Cust
   const formatValue = (value: string | number | undefined): string => {
     if (value === undefined) return 'N/A';
     const num = typeof value === 'number' ? value : parseFloat(value);
-    return isNaN(num) ? 'N/A' : num.toFixed(2);
+    return isNaN(num) ? 'N/A' : num.toFixed(4);
   };
 
   return (
@@ -56,7 +56,13 @@ const CustomTooltip = ({ active, xKey, yKey, xLabel, yLabel, hoveredData }: Cust
   );
 };
 
-const renderPlayerCircle = (props: any) => {
+interface CircleProps {
+  cx: number;
+  cy: number;
+  fill: string;
+}
+
+const renderPlayerCircle = (props: CircleProps) => {
   const { cx, cy, fill } = props;
   return (
     <circle cx={cx} cy={cy} r={8} fill={fill} stroke="black" strokeWidth={1.5} />
@@ -120,7 +126,7 @@ const ScatterPlot = memo(function ScatterPlot({
           fillOpacity={0.3}
           shape="circle"
           isAnimationActive={false}
-          onMouseEnter={(data: any) => handleMouseEnter(data)}
+          onMouseEnter={(data: ScatterDataPoint) => handleMouseEnter(data)}
           onMouseLeave={handleMouseLeave}
         />
         {/* 取得したデータ */}
