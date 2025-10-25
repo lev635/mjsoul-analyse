@@ -6,14 +6,14 @@
 # 技術スタック
 
 ## フロントエンド
-- **Next.js 15.5.4** - React フレームワーク
-- **React 19.1.0** - UI ライブラリ
-- **TypeScript 5** - 型安全な開発
+- **Next.js 15.5.4**
+- **React 19.1.0**
+- **TypeScript 5**
 - **Material-UI (MUI) v7.3.4** - UI コンポーネントライブラリ
 - **Recharts 3.2.1** - データ可視化（散布図、レーダーチャート）
 
 ## バックエンド
-- **Next.js API Routes** - サーバーサイド API
+- **Next.js API Routes**
 - **Puppeteer 24.23.0** - Webスクレイピング（プレイヤーデータ取得）
 - **PapaParse 5.5.3** - CSV データ解析
 
