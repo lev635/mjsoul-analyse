@@ -82,15 +82,23 @@ const PlayerCard = memo(function PlayerCard({ player, color, stats }: PlayerCard
           </Typography>
           <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 0.5 }}>
             {['和了率', '放銃率', 'ツモ率', 'ダマ率', '流局率', '流局聴牌率', '副露率', '立直率', '和了巡数', '平均和了']
-              .map((key) => (
-                <Box key={key}>
-                  <Typography variant="caption">
-                    {key}: {typeof player[key] === 'string' && !isNaN(parseFloat(player[key]))
-                      ? parseFloat(player[key]).toFixed(4)
-                      : player[key]}
-                  </Typography>
-                </Box>
-              ))}
+              .map((key) => {
+                const value = player[key];
+                let displayValue: string | number | undefined = value;
+
+                if (typeof value === 'string' && !isNaN(parseFloat(value))) {
+                  const numValue = parseFloat(value);
+                  displayValue = key === '平均和了' ? Math.round(numValue).toString() : numValue.toFixed(4);
+                }
+
+                return (
+                  <Box key={key}>
+                    <Typography variant="caption">
+                      {key}: {displayValue}
+                    </Typography>
+                  </Box>
+                );
+              })}
           </Box>
         </Box>
       )}

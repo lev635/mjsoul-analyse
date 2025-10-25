@@ -38,32 +38,27 @@ const CustomTooltip = ({ active, xKey, yKey, xLabel, yLabel, hoveredData }: Cust
   const xValue = hoveredData[xKey];
   const yValue = hoveredData[yKey];
 
-  const formatValue = (value: string | number | undefined): string => {
+  const formatValue = (value: string | number | undefined, label: string): string => {
     if (value === undefined) return 'N/A';
     const num = typeof value === 'number' ? value : parseFloat(value);
-    return isNaN(num) ? 'N/A' : num.toFixed(4);
+    if (isNaN(num)) return 'N/A';
+    return label === '平均和了' ? Math.round(num).toString() : num.toFixed(4);
   };
 
   return (
     <Paper elevation={3} sx={{ p: 1.5, border: 1, borderColor: 'grey.300' }}>
       <Typography variant="body2">
-        <Box component="span" sx={{ fontWeight: 'medium' }}>{xLabel}:</Box> {formatValue(xValue)}
+        <Box component="span" sx={{ fontWeight: 'medium' }}>{xLabel}:</Box> {formatValue(xValue, xLabel)}
       </Typography>
       <Typography variant="body2">
-        <Box component="span" sx={{ fontWeight: 'medium' }}>{yLabel}:</Box> {formatValue(yValue)}
+        <Box component="span" sx={{ fontWeight: 'medium' }}>{yLabel}:</Box> {formatValue(yValue, yLabel)}
       </Typography>
     </Paper>
   );
 };
 
-interface CircleProps {
-  cx: number;
-  cy: number;
-  fill: string;
-}
-
-const renderPlayerCircle = (props: CircleProps) => {
-  const { cx, cy, fill } = props;
+const renderPlayerCircle = (props: unknown) => {
+  const { cx, cy, fill } = props as { cx: number; cy: number; fill: string };
   return (
     <circle cx={cx} cy={cy} r={8} fill={fill} stroke="black" strokeWidth={1.5} />
   );
