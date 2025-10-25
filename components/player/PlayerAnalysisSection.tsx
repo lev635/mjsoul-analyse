@@ -1,8 +1,11 @@
-import PlayerRadarChart from '@/components/RadarChart';
-import PlayerInputTable from '@/components/PlayerInputTable';
+import PlayerRadarChart from '@/components/player/RadarChart';
+import PlayerInputTable from '@/components/player/PlayerInputTable';
 import { colors } from '@/lib/dataTransformers';
 import { Dispatch, SetStateAction } from 'react';
-import { Paper, Typography, Box, Stack } from '@mui/material';
+import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
 import Grid from '@mui/material/Grid';
 import { PlayerStats } from '@/lib/types';
 

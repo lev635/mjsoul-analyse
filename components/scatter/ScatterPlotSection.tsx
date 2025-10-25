@@ -1,7 +1,8 @@
 import { useState, useMemo, useCallback } from 'react';
-import { Box, Typography } from '@mui/material';
-import ScatterPlot, { RANK_VALUES, type RankValue } from '@/components/ScatterPlot';
-import ScatterPlotControls from '@/components/ScatterPlotControls';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import ScatterPlot, { RANK_VALUES, type RankValue } from '@/components/scatter/ScatterPlot';
+import ScatterPlotControls from '@/components/scatter/ScatterPlotControls';
 import { ScatterDataPoint, PlayerScatterPoint } from '@/lib/types';
 
 interface ScatterPlotSectionProps {
@@ -76,21 +77,23 @@ export default function ScatterPlotSection({
   }, []);
 
   return (
-    <Box
+    <Grid
+      container
       component="section"
+      spacing={1}
       sx={{
-        p: 2,
-        height: 1000,
+        height: '100%',
         display: 'flex',
         flexDirection: 'column',
-        gap: 1,
       }}
     >
-      <Typography variant="h5" component="h2" sx={{ fontWeight: 'bold' }}>
-        データ
-      </Typography>
-      <Box sx={{ display: 'flex', gap: 2, flex: 1, minHeight: 0 }}>
-        <Box sx={{ flex: 1, minHeight: 0 }}>
+      <Grid size={12} sx={{ flexShrink: 0 }}>
+        <Typography variant="h5" component="h2" sx={{ fontWeight: 'bold', textAlign: 'left' }}>
+          データ
+        </Typography>
+      </Grid>
+      <Grid container spacing={1} sx={{ flex: 1, minHeight: 0 }}>
+        <Grid size={9} sx={{ height: '100%' }}>
           <ScatterPlot
             data={filteredData}
             xKey={xAxis}
@@ -101,18 +104,19 @@ export default function ScatterPlotSection({
             yDomain={yDomain}
             playerPoints={playerScatterPoints}
           />
-        </Box>
-
-        <ScatterPlotControls
-          xAxis={xAxis}
-          setXAxis={setXAxis}
-          yAxis={yAxis}
-          setYAxis={setYAxis}
-          axisOptions={axisOptions}
-          visibleRanks={visibleRanks}
-          onToggleRank={toggleRank}
-        />
-      </Box>
-    </Box>
+        </Grid>
+        <Grid size={3} sx={{ height: '100%' }}>
+          <ScatterPlotControls
+            xAxis={xAxis}
+            setXAxis={setXAxis}
+            yAxis={yAxis}
+            setYAxis={setYAxis}
+            axisOptions={axisOptions}
+            visibleRanks={visibleRanks}
+            onToggleRank={toggleRank}
+          />
+        </Grid>
+      </Grid>
+    </Grid>
   );
 }

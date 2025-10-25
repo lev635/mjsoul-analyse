@@ -1,7 +1,7 @@
-import PlayerInputTable from '@/components/PlayerInputTable';
-import PlayerAnalysisGrid from '@/components/PlayerAnalysisGrid';
+import PlayerInputTable from '@/components/player/PlayerInputTable';
+import PlayerAnalysisGrid from '@/components/player/PlayerAnalysisGrid';
 import { Dispatch, SetStateAction } from 'react';
-import { Box, Stack } from '@mui/material';
+import Grid from '@mui/material/Grid';
 import { PlayerStats, Stats } from '@/lib/types';
 
 interface PlayerSearchSectionProps {
@@ -24,26 +24,26 @@ export default function PlayerSearchSection({
   stats
 }: PlayerSearchSectionProps) {
   return (
-    <Box
+    <Grid
+      container
       component="section"
-      sx={{
-        p: 2,
-        height: 1100,
-      }}
+      spacing={1}
     >
-      <Stack sx={{ gap: 2 }}>
+      <Grid size={12}>
         <PlayerInputTable
           playerNames={playerNames}
           setPlayerNames={setPlayerNames}
           onFetchData={onFetchData}
           scraping={scraping}
         />
+      </Grid>
+      <Grid size={12}>
         <PlayerAnalysisGrid
           players={players}
           colors={colors}
           stats={stats}
         />
-      </Stack>
-    </Box>
+      </Grid>
+    </Grid>
   );
 }

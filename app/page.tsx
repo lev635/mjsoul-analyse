@@ -1,9 +1,13 @@
 'use client';
 
 import { useEffect, useState, useMemo } from 'react';
-import { Box, Stack, Typography, Button } from '@mui/material';
-import ScatterPlotSection from '@/components/ScatterPlotSection';
-import PlayerSearchSection from '@/components/PlayerSearchSection';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import Grid from '@mui/material/Grid';
+
+import ScatterPlotSection from '@/components/scatter/ScatterPlotSection';
+import PlayerSearchSection from '@/components/player/PlayerSearchSection';
 import HelpModal from '@/components/HelpModal';
 import { usePlayerData } from '@/hooks/usePlayerData';
 import {
@@ -67,10 +71,13 @@ export default function Home() {
   }
 
   return (
-    <Stack
+    <Box
       sx={{
-        bgcolor: 'grey.100',
         p: 2,
+        height: '100%',
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'column',
         gap: 2,
       }}
     >
@@ -78,15 +85,12 @@ export default function Home() {
         component="header"
         sx={{
           display: 'flex',
-          alignItems: 'center',
+          alignItems: 'flex-start',
           gap: 4,
           mx: 'auto',
-          maxWidth: '1920px',
-          width: "100%",
-          flexShrink: 0,
         }}
       >
-        <Typography variant="h3" component="h1" sx={{ fontWeight: 'bold', color: 'grey.800' }}>
+        <Typography variant="h4" component="h2" sx={{ fontWeight: 'bold' }}>
           じゃんたま分析くん
         </Typography>
         <Button
@@ -104,25 +108,20 @@ export default function Home() {
 
       <HelpModal isOpen={showHelp} onClose={() => setShowHelp(false)} />
 
-      <Box
-        component="main"
-        sx={{
-          display: 'flex',
-          gap: 2,
-          maxWidth: '1920px',
-          width: '100%',
-          mx: 'auto',
-        }}
+      <Grid
+        container
+        spacing={2}
+        sx={{ flex: 1 }}
       >
-        <Box sx={{ flex: 2 }}>
+        <Grid size={8} sx={{ height: '100%' }}>
           <ScatterPlotSection
             scatterData={scatterData}
             playerScatterPoints={playerScatterPoints}
             axisOptions={axisOptions}
           />
-        </Box>
+        </Grid>
 
-        <Box sx={{ flex: 1 }}>
+        <Grid size={4} sx={{ height: '100%' }}>
           <PlayerSearchSection
             playerNames={playerNames}
             setPlayerNames={setPlayerNames}
@@ -132,8 +131,8 @@ export default function Home() {
             colors={colors}
             stats={stats}
           />
-        </Box>
-      </Box>
-    </Stack>
+        </Grid>
+      </Grid>
+    </Box>
   );
 }

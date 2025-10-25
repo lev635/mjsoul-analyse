@@ -1,8 +1,10 @@
 'use client';
 
 import { ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Label } from 'recharts';
-import { useMemo, useState, memo } from 'react';
-import { Box, Paper, Typography } from '@mui/material';
+import { useState, memo } from 'react';
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography';
 import { RANK_VALUES, type RankValue } from '@/lib/constants';
 import { ScatterDataPoint, PlayerScatterPoint } from '@/lib/types';
 
@@ -83,62 +85,60 @@ const ScatterPlot = memo(function ScatterPlot({
   };
 
   return (
-    <Box sx={{ width: '100%', height: '100%' }}>
-      <ResponsiveContainer width="100%" height="100%">
-        <ScatterChart margin={{ top: 20, right: 20, bottom: 40, left: 20 }}>
-          <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" />
-          <XAxis
-            type="number"
-            dataKey={xKey}
-            domain={xDomain}
-            tick={{ fill: '#000', fontSize: 12 }}
-            tickFormatter={(value) => value.toFixed(2)}
-            allowDataOverflow={true}
-          >
-            <Label value={xLabel} offset={-20} position="insideBottom" style={{ fontSize: 14, fill: '#000' }} />
-          </XAxis>
-          <YAxis
-            type="number"
-            dataKey={yKey}
-            domain={yDomain}
-            tick={{ fill: '#000', fontSize: 12 }}
-            tickFormatter={(value) => value.toFixed(2)}
-            allowDataOverflow={true}
-          >
-            <Label value={yLabel} angle={-90} position="insideLeft" style={{ fontSize: 14, fill: '#000', textAnchor: 'middle' }} />
-          </YAxis>
-          <Tooltip
-            cursor={{ strokeDasharray: '3 3' }}
-            content={<CustomTooltip xKey={xKey} yKey={yKey} xLabel={xLabel} yLabel={yLabel} hoveredData={hoveredData} />}
-          />
-          {/* その他のデータ */}
+    <ResponsiveContainer>
+      <ScatterChart margin={{ top: 20, right: 20, bottom: 40, left: 20 }}>
+        <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" />
+        <XAxis
+          type="number"
+          dataKey={xKey}
+          domain={xDomain}
+          tick={{ fill: '#000', fontSize: 12 }}
+          tickFormatter={(value) => value.toFixed(2)}
+          allowDataOverflow={true}
+        >
+          <Label value={xLabel} offset={-20} position="insideBottom" style={{ fontSize: 14, fill: '#000' }} />
+        </XAxis>
+        <YAxis
+          type="number"
+          dataKey={yKey}
+          domain={yDomain}
+          tick={{ fill: '#000', fontSize: 12 }}
+          tickFormatter={(value) => value.toFixed(2)}
+          allowDataOverflow={true}
+        >
+          <Label value={yLabel} angle={-90} position="insideLeft" style={{ fontSize: 14, fill: '#000', textAnchor: 'middle' }} />
+        </YAxis>
+        <Tooltip
+          cursor={{ strokeDasharray: '3 3' }}
+          content={<CustomTooltip xKey={xKey} yKey={yKey} xLabel={xLabel} yLabel={yLabel} hoveredData={hoveredData} />}
+        />
+        {/* その他のデータ */}
+        <Scatter
+          name="All Players"
+          data={data}
+          fill="#8884d8"
+          fillOpacity={0.3}
+          shape="circle"
+          isAnimationActive={false}
+          onMouseEnter={(data: any) => handleMouseEnter(data)}
+          onMouseLeave={handleMouseLeave}
+        />
+        {/* 取得したデータ */}
+        {playerPoints.map((player, idx) => (
           <Scatter
-            name="All Players"
-            data={data}
-            fill="#8884d8"
-            fillOpacity={0.3}
-            shape="circle"
+            key={`player-${idx}`}
+            name={player.name}
+            data={[player.data]}
+            fill={player.color}
+            fillOpacity={1}
+            shape={renderPlayerCircle}
             isAnimationActive={false}
-            onMouseEnter={(data: any) => handleMouseEnter(data)}
+            onMouseEnter={() => handleMouseEnter(player.data)}
             onMouseLeave={handleMouseLeave}
           />
-          {/* 取得したデータ */}
-          {playerPoints.map((player, idx) => (
-            <Scatter
-              key={`player-${idx}`}
-              name={player.name}
-              data={[player.data]}
-              fill={player.color}
-              fillOpacity={1}
-              shape={renderPlayerCircle}
-              isAnimationActive={false}
-              onMouseEnter={() => handleMouseEnter(player.data)}
-              onMouseLeave={handleMouseLeave}
-            />
-          ))}
-        </ScatterChart>
-      </ResponsiveContainer>
-    </Box>
+        ))}
+      </ScatterChart>
+    </ResponsiveContainer>
   );
 });
 

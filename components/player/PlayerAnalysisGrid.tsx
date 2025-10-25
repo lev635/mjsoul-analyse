@@ -1,5 +1,10 @@
-import PlayerRadarChart from '@/components/RadarChart';
-import { Box, Typography, Paper, Stack, List, ListItem } from '@mui/material';
+import PlayerRadarChart from '@/components/player/RadarChart';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Paper from '@mui/material/Paper';
+import Stack from '@mui/material/Stack';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
 import Grid from '@mui/material/Grid';
 import { PlayerStats, Stats } from '@/lib/types';
 import { useMemo, memo } from 'react';
@@ -140,17 +145,12 @@ export default function PlayerAnalysisGrid({
   if (players.length === 0) return null;
 
   return (
-    <Stack sx={{ flex: 1, gap: 2 }}>
-      <Typography variant="h5" component="h3" sx={{ fontWeight: 'bold' }}>
-        プレイヤー分析
-      </Typography>
-      <Grid container spacing={1.5}>
-        {players.slice(0, 4).map((player: PlayerStats, idx: number) => (
-          <Grid size={6} key={idx}>
-            <PlayerCard player={player} color={colors[idx]} stats={stats} />
-          </Grid>
-        ))}
-      </Grid>
-    </Stack>
+    <Grid container spacing={1}>
+      {players.slice(0, 4).map((player: PlayerStats, idx: number) => (
+        <Grid size={6} key={idx}>
+          <PlayerCard player={player} color={colors[idx]} stats={stats} />
+        </Grid>
+      ))}
+    </Grid>
   );
 }

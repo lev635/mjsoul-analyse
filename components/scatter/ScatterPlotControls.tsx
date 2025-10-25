@@ -1,17 +1,15 @@
-import { RANK_VALUES, type RankValue } from '@/components/ScatterPlot';
+import { RANK_VALUES, type RankValue } from '@/components/scatter/ScatterPlot';
 import { Dispatch, SetStateAction, memo } from 'react';
-import {
-  Box,
-  Stack,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  FormLabel,
-  FormControlLabel,
-  Checkbox,
-  SelectChangeEvent
-} from '@mui/material';
+import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import FormLabel from '@mui/material/FormLabel';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import { SelectChangeEvent } from '@mui/material/Select';
 
 interface ScatterPlotControlsProps {
   xAxis: string;
@@ -41,7 +39,7 @@ const ScatterPlotControls = memo(function ScatterPlotControls({
   };
 
   return (
-    <Stack sx={{ width: 192, gap: 2 }}>
+    <Stack sx={{ gap: 2 }}>
       <FormControl fullWidth size="small">
         <InputLabel id="x-axis-label">X軸</InputLabel>
         <Select
@@ -71,7 +69,7 @@ const ScatterPlotControls = memo(function ScatterPlotControls({
       </FormControl>
 
       <Box>
-        <FormLabel component="legend" sx={{ fontSize: '0.875rem', fontWeight: 'medium', mb: 1 }}>
+        <FormLabel component="legend" sx={{ fontSize: '0.875rem', fontWeight: 'medium' }}>
           ランクフィルター
         </FormLabel>
         <Stack sx={{ gap: 0.5 }}>

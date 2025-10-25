@@ -1,5 +1,8 @@
 import { Dispatch, SetStateAction } from 'react';
-import { Box, Stack, Typography, TextField, Button } from '@mui/material';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
 
 interface PlayerInputTableProps {
   playerNames: string[];
@@ -16,7 +19,6 @@ export default function PlayerInputTable({
   onFetchData,
   scraping
 }: PlayerInputTableProps) {
-  // useRefを使ってもパフォーマンスに大差ないので使わない
   const handleNameChange = (index: number, value: string) => {
     const newNames = [...playerNames];
     newNames[index] = value;
@@ -24,8 +26,8 @@ export default function PlayerInputTable({
   };
 
   return (
-    <Stack sx={{ gap: 2 }}>
-      <Typography variant="h5" component="h2" sx={{ fontWeight: 'bold' }}>
+    <>
+      <Typography variant="h5" component="h2" sx={{ fontWeight: 'bold', textAlign: 'left' }}>
         プレイヤー検索
       </Typography>
       <Box sx={{ position: 'relative', height: 280 }}>
@@ -41,7 +43,7 @@ export default function PlayerInputTable({
             gap: 1.5,
           }}
         >
-          <Box sx={{ width: 16, height: 16, borderRadius: '50%', bgcolor: colors[2] }} />
+          <Box sx={{ width: 16, height: 16, borderRadius: '50%', bgcolor: colors[2], border: 1, borderColor: 'black' }} />
           <TextField
             placeholder="対面"
             value={playerNames[2]}
@@ -68,7 +70,7 @@ export default function PlayerInputTable({
             gap: 1.5,
           }}
         >
-          <Box sx={{ width: 16, height: 16, borderRadius: '50%', bgcolor: colors[3] }} />
+          <Box sx={{ width: 16, height: 16, borderRadius: '50%', bgcolor: colors[3], border: 1, borderColor: 'black' }} />
           <TextField
             placeholder="上家"
             value={playerNames[3]}
@@ -133,7 +135,7 @@ export default function PlayerInputTable({
             gap: 1.5,
           }}
         >
-          <Box sx={{ width: 16, height: 16, borderRadius: '50%', bgcolor: colors[1] }} />
+          <Box sx={{ width: 16, height: 16, borderRadius: '50%', bgcolor: colors[1], border: 1, borderColor: 'black' }} />
           <TextField
             placeholder="下家"
             value={playerNames[1]}
@@ -160,7 +162,7 @@ export default function PlayerInputTable({
             gap: 1.5,
           }}
         >
-          <Box sx={{ width: 16, height: 16, borderRadius: '50%', bgcolor: colors[0] }} />
+          <Box sx={{ width: 16, height: 16, borderRadius: '50%', bgcolor: colors[0], border: 1, borderColor: 'black' }} />
           <TextField
             placeholder="自家"
             value={playerNames[0]}
@@ -175,6 +177,6 @@ export default function PlayerInputTable({
           />
         </Box>
       </Box>
-    </Stack>
+    </>
   );
 }

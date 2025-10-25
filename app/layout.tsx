@@ -13,7 +13,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="jp">
+    <html lang="ja">
       <body style={{ backgroundColor: '#f5f5f5', margin: 0 }}>
         <AppRouterCacheProvider>{children}</AppRouterCacheProvider>
       </body>
