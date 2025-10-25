@@ -105,7 +105,7 @@ export default function PlayerInputTable({
               width: 80,
               height: 80,
               fontWeight: 'bold',
-              fontSize: '1rem',
+              fontSize: '0.75rem',
               '&:hover': { bgcolor: 'grey.100' },
               '&.Mui-disabled': {
                 bgcolor: 'grey.300',
