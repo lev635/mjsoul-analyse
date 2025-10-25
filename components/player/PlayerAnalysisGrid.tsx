@@ -185,6 +185,11 @@ export default function PlayerAnalysisGrid({
 
   return (
     <Grid container spacing={1}>
+      <Grid size={12}>
+        <Typography variant="h5" component="h2" sx={{ fontWeight: 'bold' }}>
+          プレイヤー分析
+        </Typography>
+      </Grid>
       {players.slice(0, 4).map((player: PlayerStats, idx: number) => (
         <Grid size={6} key={idx}>
           <PlayerCard player={player} color={colors[idx]} stats={stats} />
